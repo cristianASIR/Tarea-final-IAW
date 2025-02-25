@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #Instalar dependencias NEST:
 
 npm i @nestjs/config @nestjs/jwt @nestjs/passport passport passport-jwt passport-local bcrypt @types/passport-jwt @types/passport-local @types/bcrypt
@@ -17,3 +18,8 @@ DBUSERNAME=cristian
 password=usuario
 database=proyectyo_iaw
 BBDD=proyectyo_iaw
+=======
+# Instalar dependencias
+ npm install react-bootstrap bootstrap @mui/material @emotion/react @emotion/styled
+ npm install react-icons --save
+>>>>>>> 79534482 (Base)
