@@ -1,26 +1,54 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateCestavideojuegoDto } from './dto/create-cestavideojuego.dto';
 import { UpdateCestavideojuegoDto } from './dto/update-cestavideojuego.dto';
+import { Cestavideojuego } from './entities/cestavideojuego.entity';
 
 @Injectable()
 export class CestavideojuegoService {
-  create(createCestavideojuegoDto: CreateCestavideojuegoDto) {
-    return 'This action adds a new cestavideojuego';
+  constructor(
+    @InjectRepository(Cestavideojuego)
+    private readonly cestavideojuegoRepository: Repository<Cestavideojuego>,
+  ) {}
+
+  async create(createDto: CreateCestavideojuegoDto): Promise<Cestavideojuego> {
+    const cestavideojuego = this.cestavideojuegoRepository.create(createDto);
+    return await this.cestavideojuegoRepository.save(cestavideojuego);
   }
 
-  findAll() {
-    return `This action returns all cestavideojuego`;
+  async findAll(): Promise<Cestavideojuego[]> {
+    return await this.cestavideojuegoRepository.find({
+      relations: ['cesta', 'videojuegos'],
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cestavideojuego`;
+  async findOne(id: number): Promise<Cestavideojuego> {
+    const cestavideojuego = await this.cestavideojuegoRepository.findOne({
+      where: { id },
+      relations: ['cesta', 'videojuegos'],
+    });
+    if (!cestavideojuego) {
+      throw new NotFoundException(`Cestavideojuego con id ${id} no encontrado`);
+    }
+    return cestavideojuego;
   }
 
-  update(id: number, updateCestavideojuegoDto: UpdateCestavideojuegoDto) {
-    return `This action updates a #${id} cestavideojuego`;
+  async update(
+    id: number,
+    updateDto: UpdateCestavideojuegoDto,
+  ): Promise<Cestavideojuego> {
+    const result = await this.cestavideojuegoRepository.update(id, updateDto);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Cestavideojuego con id ${id} no encontrado`);
+    }
+    return await this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cestavideojuego`;
+  async remove(id: number): Promise<void> {
+    const result = await this.cestavideojuegoRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Cestavideojuego con id ${id} no encontrado`);
+    }
   }
 }
