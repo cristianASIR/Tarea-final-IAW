@@ -1,5 +1,5 @@
 import { Cesta } from "src/cesta/entities/cesta.entity"
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm"
 
 @Entity()
 export class Cliente {
@@ -17,6 +17,8 @@ export class Cliente {
  direccion: string
 @Column()
 password: string
-@OneToMany( () => Cesta, (cesta) => cesta.cliente)
- cesta: Cesta[]
+
+//Cada cliente solo tiene una cesta
+@OneToOne( () => Cesta, (cesta) => cesta.cliente) 
+cesta: Cesta[]
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { VideojuegosService } from './videojuegos.service';
 import { CreateVideojuegoDto } from './dto/create-videojuego.dto';
 import { UpdateVideojuegoDto } from './dto/update-videojuego.dto';
@@ -22,7 +22,7 @@ export class VideojuegosController {
     return this.videojuegosService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateVideojuegoDto: UpdateVideojuegoDto) {
     return this.videojuegosService.update(+id, updateVideojuegoDto);
   }

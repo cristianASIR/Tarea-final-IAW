@@ -8,8 +8,13 @@ export class Cestavideojuego {
 id: number
 @Column()
 cantidad: number
+
+//Tabla creada por relación N:N entre Videojuego y Cesta
+//Una cesta contiene varios videojuegos
 @ManyToOne(() => Cesta, (cesta) => cesta.cestaVideojuego)
 cesta: Cesta
+
+//Un videojuego puede estar en varias cestas de diferentes clientes
 @ManyToOne(() => Videojuego, (videojuego) => videojuego.cestaVideojuegos)
 videojuegos: Videojuego
 }
