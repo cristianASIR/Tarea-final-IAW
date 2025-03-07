@@ -4,16 +4,30 @@ import { Repository } from 'typeorm';
 import { CreateCestaDto } from './dto/create-cesta.dto';
 import { UpdateCestaDto } from './dto/update-cesta.dto';
 import { Cesta } from './entities/cesta.entity';
+import { Cliente } from 'src/cliente/entities/cliente.entity';
 
 @Injectable()
 export class CestaService {
   constructor(
     @InjectRepository(Cesta)
     private readonly cestaRepository: Repository<Cesta>,
+    @InjectRepository(Cliente) // Inject Cliente repository
+    private readonly clienteRepository: Repository<Cliente>,
   ) { }
 
   async create(createCestaDto: CreateCestaDto): Promise<Cesta> {
-    const cesta = this.cestaRepository.create(createCestaDto);
+    const { id_cliente, ...cestaData } = createCestaDto;
+
+    const cliente = await this.clienteRepository.findOne({ where: { idcliente: id_cliente } });
+    if (!cliente) {
+      throw new NotFoundException(`Cliente con id ${id_cliente} no encontrado`);
+    }
+
+    const cesta = this.cestaRepository.create({
+      ...cestaData,
+      cliente: cliente, // Assign the Cliente entity
+    });
+
     return await this.cestaRepository.save(cesta);
   }
 
@@ -35,11 +49,12 @@ export class CestaService {
   }
 
   async update(id: number, updateCestaDto: UpdateCestaDto): Promise<Cesta> {
-    const result = await this.cestaRepository.update(id, updateCestaDto);
-    if (result.affected === 0) {
+    const cesta = await this.cestaRepository.findOne({ where: { idcesta: id } });
+    if (!cesta) {
       throw new NotFoundException(`Cesta con id ${id} no encontrada`);
     }
-    return this.findOne(id);
+    Object.assign(cesta, updateCestaDto);
+    return await this.cestaRepository.save(cesta);
   }
 
   async remove(id: number): Promise<void> {
