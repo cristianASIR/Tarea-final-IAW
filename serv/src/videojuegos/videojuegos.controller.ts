@@ -1,51 +1,34 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Videojuego } from './entities/videojuego.entity';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { VideojuegosService } from './videojuegos.service';
 import { CreateVideojuegoDto } from './dto/create-videojuego.dto';
 import { UpdateVideojuegoDto } from './dto/update-videojuego.dto';
 
-@Injectable()
-export class VideojuegoService {
-  constructor(
-    @InjectRepository(Videojuego)
-    private readonly videojuegoRepository: Repository<Videojuego>,
-  ) {}
+@Controller('videojuegos')
+export class VideojuegosController {
+  constructor(private readonly videojuegosService: VideojuegosService) {}
 
-  async create(createVideojuegoDto: CreateVideojuegoDto): Promise<Videojuego> {
-    const videojuego = this.videojuegoRepository.create(createVideojuegoDto);
-    return await this.videojuegoRepository.save(videojuego);
+  @Post()
+  create(@Body() createVideojuegoDto: CreateVideojuegoDto) {
+    return this.videojuegosService.create(createVideojuegoDto);
   }
 
-  async findAll(): Promise<Videojuego[]> {
-    return await this.videojuegoRepository.find({
-      relations: ['cestaVideojuegos'],
-    });
+  @Get()
+  findAll() {
+    return this.videojuegosService.findAll();
   }
 
-  async findOne(id: number): Promise<Videojuego> {
-    const videojuego = await this.videojuegoRepository.findOne({
-      where: { idproducto: id },
-      relations: ['cestaVideojuegos'],
-    });
-    if (!videojuego) {
-      throw new NotFoundException(`Videojuego con id ${id} no encontrado`);
-    }
-    return videojuego;
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.videojuegosService.findOne(+id);
   }
 
-  async update(id: number, updateVideojuegoDto: UpdateVideojuegoDto): Promise<Videojuego> {
-    const result = await this.videojuegoRepository.update(id, updateVideojuegoDto);
-    if (result.affected === 0) {
-      throw new NotFoundException(`Videojuego con id ${id} no encontrado`);
-    }
-    return await this.findOne(id);
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateVideojuegoDto: UpdateVideojuegoDto) {
+    return this.videojuegosService.update(+id, updateVideojuegoDto);
   }
 
-  async remove(id: number): Promise<void> {
-    const result = await this.videojuegoRepository.delete(id);
-    if (result.affected === 0) {
-      throw new NotFoundException(`Videojuego con id ${id} no encontrado`);
-    }
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.videojuegosService.remove(+id);
   }
 }
