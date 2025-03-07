@@ -1,11 +1,11 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
-import { VideojuegosService } from './videojuegos.service';
 import { CreateVideojuegoDto } from './dto/create-videojuego.dto';
 import { UpdateVideojuegoDto } from './dto/update-videojuego.dto';
+import { VideojuegoService } from './videojuegos.service';
 
 @Controller('videojuegos')
 export class VideojuegosController {
-  constructor(private readonly videojuegosService: VideojuegosService) {}
+  constructor(private readonly videojuegosService: VideojuegoService) {}
 
   @Post()
   create(@Body() createVideojuegoDto: CreateVideojuegoDto) {
