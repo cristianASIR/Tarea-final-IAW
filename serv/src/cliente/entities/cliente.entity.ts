@@ -8,17 +8,17 @@ export class Cliente {
  @Column()
  nombre: string
  @Column()
- ap1: string
+ apellido: string
  @Column()
  email: string
  @Column()
- tlf: string
+ telefono: string
  @Column()
  direccion: string
-@Column()
-password: string
-
-//Cada cliente solo tiene una cesta
-@OneToOne( () => Cesta, (cesta) => cesta.cliente) 
-cesta: Cesta[]
+ @Column()
+ password: string
+ 
+ //Cada cliente solo tiene una cesta
+ @OneToOne( () => Cesta, (cesta) => cesta.cliente) 
+ cesta: Cesta[]
 }
