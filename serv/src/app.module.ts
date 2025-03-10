@@ -7,7 +7,6 @@ import { VideojuegosModule } from './videojuegos/videojuegos.module';
 import { ClienteModule } from './cliente/cliente.module';
 import { CestaModule } from './cesta/cesta.module';
 import { CestavideojuegoModule } from './cestavideojuego/cestavideojuego.module';
-import { AuthModule } from './src/auth/auth.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
