@@ -32,9 +32,16 @@ export class AuthService {
     }
 
     async register(createClienteDto: CreateClienteDto) {
-        const { nombre, email, password } = createClienteDto;
+        const { nombre, email, password, apellido, direccion, telefono } = createClienteDto;
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await this.clienteService.create({ nombre, email, password: hashedPassword });
+        const user = await this.clienteService.create({ 
+            nombre, 
+            email, 
+            password: hashedPassword,
+            apellido,
+            direccion,
+            telefono
+        });
         return this.login(user);
     }
 }
