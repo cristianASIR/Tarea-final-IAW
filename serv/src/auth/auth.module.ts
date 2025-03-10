@@ -4,12 +4,10 @@ import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './local-strategy/local-strategy';
 import { JwtStrategy } from './jwt-strategy/jwt-strategy';
 import { AuthService } from './auth.service';
-import { UsuarioModule } from '../user/user.module';
 import { AuthController } from './auth.controller';
 
 @Module({
     imports: [
-        UsuarioModule,
         PassportModule,
         JwtModule.register({
             secret: 'tu_secreto_jwt', 

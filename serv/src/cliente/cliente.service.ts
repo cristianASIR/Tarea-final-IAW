@@ -48,4 +48,8 @@ export class ClienteService {
       throw new NotFoundException(`Cliente con id ${id} no encontrado`);
     }
   }
+  async findByEmail(email: string): Promise<Cliente | null> {
+    const cliente = await this.clienteRepository.findOne({ where: { email } });
+    return cliente;
+  }
 }
