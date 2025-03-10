@@ -6,6 +6,9 @@ export class CreateClienteDto {
     id_cliente: number;
     @IsNotEmpty()
     @IsString()
+    password: string;
+    @IsNotEmpty()
+    @IsString()
     nombre: string;
     @IsNotEmpty()
     @IsString()
