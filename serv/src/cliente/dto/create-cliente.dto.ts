@@ -1,9 +1,10 @@
 import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateClienteDto {
+
     @IsNotEmpty()
-    @IsNumber()
-    id_cliente: number;
+    @IsString()
+    password: string;
     @IsNotEmpty()
     @IsString()
     nombre: string;
