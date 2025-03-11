@@ -1,0 +1,6 @@
+/* Animación para el botón cuando se agrega al carrito */
+.animate {
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out, background-color 0.3s;
+  }
+  

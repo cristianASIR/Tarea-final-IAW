@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: url("https://wallpaperaccess.com/full/3846357.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Estilo Glassmorphism */
+.glass-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+  
