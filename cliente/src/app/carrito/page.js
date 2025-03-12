@@ -1,9 +1,34 @@
 "use client";
 import "bootstrap/dist/css/bootstrap.min.css";
-import useCarrito from "@/store/useCarrito";
+import { useState, useEffect } from "react";
 
 export default function Carrito() {
-  const { carrito, eliminarProducto, actualizarCantidad } = useCarrito();
+  const [carrito, setCarrito] = useState([]);
+
+  // 📌 Cargar el carrito desde localStorage al cargar la página
+  useEffect(() => {
+    const carritoGuardado = JSON.parse(localStorage.getItem("carrito")) || [];
+    setCarrito(carritoGuardado);
+  }, []);
+
+  // 📌 Guardar el carrito en localStorage cada vez que cambia
+  useEffect(() => {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+  }, [carrito]);
+
+  // 📌 Función para eliminar un producto
+  const eliminarProducto = (id) => {
+    const nuevoCarrito = carrito.filter((producto) => producto.id !== id);
+    setCarrito(nuevoCarrito);
+  };
+
+  // 📌 Función para actualizar la cantidad de un producto
+  const actualizarCantidad = (id, cantidad) => {
+    const nuevoCarrito = carrito.map((producto) =>
+      producto.id === id ? { ...producto, cantidad: Math.max(1, cantidad) } : producto
+    );
+    setCarrito(nuevoCarrito);
+  };
 
   // 📌 Calcular el total del carrito
   const precioTotal = carrito.reduce(
@@ -46,9 +71,7 @@ export default function Carrito() {
                       <div className="d-flex align-items-center gap-2">
                         <button
                           className="btn btn-sm btn-outline-light"
-                          onClick={() =>
-                            actualizarCantidad(producto.id, Math.max(1, producto.cantidad - 1))
-                          }
+                          onClick={() => actualizarCantidad(producto.id, producto.cantidad - 1)}
                         >
                           ➖
                         </button>
@@ -56,18 +79,14 @@ export default function Carrito() {
                         <input
                           type="number"
                           value={producto.cantidad}
-                          onChange={(e) =>
-                            actualizarCantidad(producto.id, Number(e.target.value))
-                          }
+                          onChange={(e) => actualizarCantidad(producto.id, Number(e.target.value))}
                           className="form-control text-center w-25"
                           min="1"
                         />
 
                         <button
                           className="btn btn-sm btn-outline-light"
-                          onClick={() =>
-                            actualizarCantidad(producto.id, producto.cantidad + 1)
-                          }
+                          onClick={() => actualizarCantidad(producto.id, producto.cantidad + 1)}
                         >
                           ➕
                         </button>
@@ -98,6 +117,7 @@ export default function Carrito() {
     </div>
   );
 }
+
 
 
 
