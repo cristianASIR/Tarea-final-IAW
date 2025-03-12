@@ -1,29 +1,37 @@
-import { create } from "zustand";
+"use client";
+import { useState, useEffect } from "react";
 
-const useCarrito = create((set) => ({
-  carrito: [],
-  agregarProducto: (producto) =>
-    set((state) => {
-      const existe = state.carrito.find((p) => p.id === producto.id);
-      if (existe) {
-        return {
-          carrito: state.carrito.map((p) =>
-            p.id === producto.id ? { ...p, cantidad: p.cantidad + 1 } : p
-          ),
-        };
-      }
-      return { carrito: [...state.carrito, { ...producto, cantidad: 1 }] };
-    }),
-  eliminarProducto: (id) =>
-    set((state) => ({
-      carrito: state.carrito.filter((producto) => producto.id !== id),
-    })),
-  actualizarCantidad: (id, cantidad) =>
-    set((state) => ({
-      carrito: state.carrito.map((producto) =>
+const useCarrito = () => {
+  const [carrito, setCarrito] = useState([]);
+
+  // Guardar el carrito en LocalStorage
+  useEffect(() => {
+    const carritoGuardado = JSON.parse(localStorage.getItem("carrito")) || [];
+    setCarrito(carritoGuardado);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+  }, [carrito]);
+
+  const agregarProducto = (producto) => {
+    setCarrito((prevCarrito) => [...prevCarrito, producto]);
+  };
+
+  const eliminarProducto = (id) => {
+    setCarrito((prevCarrito) => prevCarrito.filter((producto) => producto.id !== id));
+  };
+
+  const actualizarCantidad = (id, cantidad) => {
+    setCarrito((prevCarrito) =>
+      prevCarrito.map((producto) =>
         producto.id === id ? { ...producto, cantidad } : producto
-      ),
-    })),
-}));
+      )
+    );
+  };
+
+  return { carrito, agregarProducto, eliminarProducto, actualizarCantidad };
+};
 
 export default useCarrito;
+

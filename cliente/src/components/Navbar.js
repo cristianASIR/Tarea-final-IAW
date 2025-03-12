@@ -1,18 +1,24 @@
 "use client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Link from "next/link";
-import useCarrito from "@/store/useCarrito";
+import { useEffect, useState } from "react";
 import { FaShoppingCart, FaUserPlus, FaUser } from "react-icons/fa";
 
 export default function Navbar() {
-  const { carrito } = useCarrito();
+  const [carrito, setCarrito] = useState([]);
+
+  // 📌 Cargar el carrito desde localStorage
+  useEffect(() => {
+    const carritoGuardado = JSON.parse(localStorage.getItem("carrito")) || [];
+    setCarrito(carritoGuardado);
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-lg">
       <div className="container">
         {/* 📌 Logo de la Tienda */}
         <Link href="/" className="navbar-brand fw-bold">
-          🎮 Tienda de vídeojuegos
+          🎮 Tienda de videojuegos
         </Link>
 
         <button
@@ -39,7 +45,7 @@ export default function Navbar() {
         {/* 📌 Botones de Usuario y Carrito */}
         <div className="d-flex gap-2">
           {/* Botón de Login */}
-          <Link href="/auth/login" className="btn btn-outline-light d-flex align-items-center">
+          <Link href="/auth/login" className="btn btn-light d-flex align-items-center">
             <FaUser className="me-2" />
             Login
           </Link>
@@ -62,6 +68,7 @@ export default function Navbar() {
     </nav>
   );
 }
+
 
 
 
