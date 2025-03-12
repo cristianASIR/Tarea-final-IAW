@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 
 const useCarrito = () => {
@@ -32,6 +33,7 @@ const useCarrito = () => {
 
   return { carrito, agregarProducto, eliminarProducto, actualizarCantidad };
 };
+
 
 export default useCarrito;
 
