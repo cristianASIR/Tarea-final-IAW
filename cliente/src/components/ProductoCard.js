@@ -1,7 +1,7 @@
 "use client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
-import useCarrito from "@/store/useCarrito";
+import useCarrito from "@/store/useCarrito"; 
 
 export default function ProductoCard({ producto }) {
   const { agregarProducto } = useCarrito();
@@ -27,7 +27,6 @@ export default function ProductoCard({ producto }) {
         <h5 className="card-title">{producto.nombre}</h5>
         <p className="card-text text-warning fw-bold">{producto.precio} €</p>
 
-        {/* Botón con animación */}
         <button
           onClick={handleAgregar}
           className={`btn w-100 fw-bold ${agregado ? "btn-success animate" : "btn-primary"}`}
@@ -38,6 +37,10 @@ export default function ProductoCard({ producto }) {
     </div>
   );
 }
+
+
+
+
 
 
 

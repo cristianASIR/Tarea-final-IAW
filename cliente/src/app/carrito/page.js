@@ -1,36 +1,10 @@
 "use client";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useState, useEffect } from "react";
+import useCarrito from "@/store/useCarrito";
 
 export default function Carrito() {
-  const [carrito, setCarrito] = useState([]);
+  const { carrito, eliminarProducto, actualizarCantidad, vaciarCarrito } = useCarrito();
 
-  // 📌 Cargar el carrito desde localStorage al cargar la página
-  useEffect(() => {
-    const carritoGuardado = JSON.parse(localStorage.getItem("carrito")) || [];
-    setCarrito(carritoGuardado);
-  }, []);
-
-  // 📌 Guardar el carrito en localStorage cada vez que cambia
-  useEffect(() => {
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-  }, [carrito]);
-
-  // 📌 Función para eliminar un producto
-  const eliminarProducto = (id) => {
-    const nuevoCarrito = carrito.filter((producto) => producto.id !== id);
-    setCarrito(nuevoCarrito);
-  };
-
-  // 📌 Función para actualizar la cantidad de un producto
-  const actualizarCantidad = (id, cantidad) => {
-    const nuevoCarrito = carrito.map((producto) =>
-      producto.id === id ? { ...producto, cantidad: Math.max(1, cantidad) } : producto
-    );
-    setCarrito(nuevoCarrito);
-  };
-
-  // 📌 Calcular el total del carrito
   const precioTotal = carrito.reduce(
     (total, producto) => total + producto.precio * producto.cantidad,
     0
@@ -49,7 +23,6 @@ export default function Carrito() {
               <div className="card bg-dark text-white shadow-lg">
                 <div className="row g-0 align-items-center">
                   
-                  {/* 📌 Imagen del producto */}
                   <div className="col-4">
                     <img
                       src={producto.imagen}
@@ -59,7 +32,6 @@ export default function Carrito() {
                     />
                   </div>
 
-                  {/* 📌 Info del Producto */}
                   <div className="col-8">
                     <div className="card-body">
                       <h5 className="card-title">{producto.nombre}</h5>
@@ -67,38 +39,13 @@ export default function Carrito() {
                         {producto.precio} €
                       </p>
 
-                      {/* 📌 Controles de Cantidad */}
                       <div className="d-flex align-items-center gap-2">
-                        <button
-                          className="btn btn-sm btn-outline-light"
-                          onClick={() => actualizarCantidad(producto.id, producto.cantidad - 1)}
-                        >
-                          ➖
-                        </button>
-
-                        <input
-                          type="number"
-                          value={producto.cantidad}
-                          onChange={(e) => actualizarCantidad(producto.id, Number(e.target.value))}
-                          className="form-control text-center w-25"
-                          min="1"
-                        />
-
-                        <button
-                          className="btn btn-sm btn-outline-light"
-                          onClick={() => actualizarCantidad(producto.id, producto.cantidad + 1)}
-                        >
-                          ➕
-                        </button>
+                        <button className="btn btn-sm btn-outline-light" onClick={() => actualizarCantidad(producto.id, producto.cantidad - 1)}>➖</button>
+                        <span className="text-white">{producto.cantidad}</span>
+                        <button className="btn btn-sm btn-outline-light" onClick={() => actualizarCantidad(producto.id, producto.cantidad + 1)}>➕</button>
                       </div>
 
-                      {/* 📌 Botón de eliminar */}
-                      <button
-                        onClick={() => eliminarProducto(producto.id)}
-                        className="btn btn-danger btn-sm mt-2 w-100"
-                      >
-                        ❌ Eliminar
-                      </button>
+                      <button onClick={() => eliminarProducto(producto.id)} className="btn btn-danger btn-sm mt-2 w-100">❌ Eliminar</button>
                     </div>
                   </div>
                 </div>
@@ -106,17 +53,19 @@ export default function Carrito() {
             </div>
           ))}
 
-          {/* 📌 Sección del Total */}
           <div className="col-md-6 mt-4">
             <div className="alert alert-info text-center fs-4 fw-bold">
               💰 Total: {precioTotal.toFixed(2)} €
             </div>
+            <button className="btn btn-danger w-100 mt-2" onClick={vaciarCarrito}>🗑 Vaciar Carrito</button>
           </div>
         </div>
       )}
     </div>
   );
 }
+
+
 
 
 
