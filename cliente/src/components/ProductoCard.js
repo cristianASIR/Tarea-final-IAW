@@ -2,12 +2,12 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import useCarrito from "@/store/useCarrito";
+import "@/styles/producto.css";
 
 export default function ProductoCard({ producto }) {
   const { agregarProducto } = useCarrito();
   const [agregado, setAgregado] = useState(false);
 
-  // 📌 Calcular precio con descuento (si tiene)
   const precioConDescuento = producto.descuento
     ? (producto.precio - (producto.precio * producto.descuento) / 100).toFixed(2)
     : producto.precio.toFixed(2);
@@ -32,7 +32,8 @@ export default function ProductoCard({ producto }) {
         style={{ height: "250px", objectFit: "cover" }}
       />
       <div className="card-body text-center">
-        <h5 className="card-title">{producto.nombre}</h5>
+        <h5 className="card-title neon-text">{producto.nombre}</h5> {/* 🔹 Aplicamos la clase de neón */}
+
         {producto.descuento ? (
           <p className="card-text">
             <span className="text-danger fw-bold">{precioConDescuento} €</span>{" "}
@@ -54,6 +55,7 @@ export default function ProductoCard({ producto }) {
     </div>
   );
 }
+
 
 
 
