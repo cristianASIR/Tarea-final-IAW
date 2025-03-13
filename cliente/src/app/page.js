@@ -9,6 +9,7 @@ export default function Home() {
       id: 1,
       nombre: "The Witcher 3: Wild Hunt",
       precio: 29.99,
+      descuento: 20, // 🔥 20% de descuento
       imagen:
         "https://www.mobygames.com/images/covers/l/392214-the-witcher-3-wild-hunt-xbox-one-front-cover.jpg",
     },
@@ -23,6 +24,7 @@ export default function Home() {
       id: 3,
       nombre: "Elden Ring",
       precio: 49.99,
+      descuento: 15, // 🔥 15% de descuento
       imagen:
         "https://www.mobygames.com/images/covers/l/775869-elden-ring-xbox-series-front-cover.jpg",
     },
@@ -31,12 +33,13 @@ export default function Home() {
       nombre: "Red Dead Redemption 2",
       precio: 34.99,
       imagen:
-        "https://www.vg247.com/wp-content/uploads/2018/05/red_dead_redemption_2_cover_art-600x600.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/2/22/Red_Dead_Redemption_2_Logo.png",
     },
     {
       id: 5,
       nombre: "God of War",
       precio: 44.99,
+      descuento: 10, // 🔥 10% de descuento
       imagen:
         "https://upload.wikimedia.org/wikipedia/en/a/a7/God_of_War_4_cover.jpg",
     },
@@ -55,6 +58,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
