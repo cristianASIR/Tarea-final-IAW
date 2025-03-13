@@ -5,8 +5,15 @@ import useCarrito from "@/store/useCarrito";
 export default function Carrito() {
   const { carrito, eliminarProducto, actualizarCantidad, vaciarCarrito } = useCarrito();
 
+  // 📌 Calcular el precio final con descuento
+  const calcularPrecio = (producto) => {
+    return producto.descuento
+      ? (producto.precio - (producto.precio * producto.descuento) / 100).toFixed(2)
+      : producto.precio.toFixed(2);
+  };
+
   const precioTotal = carrito.reduce(
-    (total, producto) => total + producto.precio * producto.cantidad,
+    (total, producto) => total + calcularPrecio(producto) * producto.cantidad,
     0
   );
 
@@ -35,15 +42,17 @@ export default function Carrito() {
                   <div className="col-8">
                     <div className="card-body">
                       <h5 className="card-title">{producto.nombre}</h5>
-                      <p className="card-text text-warning fw-bold">
-                        {producto.precio} €
-                      </p>
-
-                      <div className="d-flex align-items-center gap-2">
-                        <button className="btn btn-sm btn-outline-light" onClick={() => actualizarCantidad(producto.id, producto.cantidad - 1)}>➖</button>
-                        <span className="text-white">{producto.cantidad}</span>
-                        <button className="btn btn-sm btn-outline-light" onClick={() => actualizarCantidad(producto.id, producto.cantidad + 1)}>➕</button>
-                      </div>
+                      {producto.descuento ? (
+                        <p className="card-text">
+                          <span className="text-danger fw-bold">{calcularPrecio(producto)} €</span>{" "}
+                          <span className="text-muted text-decoration-line-through">
+                            {producto.precio.toFixed(2)} €
+                          </span>{" "}
+                          <span className="badge bg-warning text-dark">-{producto.descuento}%</span>
+                        </p>
+                      ) : (
+                        <p className="card-text text-warning fw-bold">{producto.precio.toFixed(2)} €</p>
+                      )}
 
                       <button onClick={() => eliminarProducto(producto.id)} className="btn btn-danger btn-sm mt-2 w-100">❌ Eliminar</button>
                     </div>
@@ -64,6 +73,7 @@ export default function Carrito() {
     </div>
   );
 }
+
 
 
 
