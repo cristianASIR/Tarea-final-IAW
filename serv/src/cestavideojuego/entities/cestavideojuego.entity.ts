@@ -8,6 +8,8 @@ export class Cestavideojuego {
 id: number
 @Column()
 cantidad: number
+@Column()
+fecha_compra: Date
 
 //Tabla creada por relación N:N entre Videojuego y Cesta
 //Una cesta contiene varios videojuegos
