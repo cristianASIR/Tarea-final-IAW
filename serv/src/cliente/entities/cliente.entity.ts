@@ -19,6 +19,6 @@ export class Cliente {
  password: string
  
  //Cada cliente solo tiene una cesta
- @OneToOne( () => Cesta, (cesta) => cesta.cliente) 
- cesta: Cesta[]
+ @OneToOne(() => Cesta, (cesta) => cesta.cliente, { cascade: true, eager: true })
+cesta: Cesta;
 }

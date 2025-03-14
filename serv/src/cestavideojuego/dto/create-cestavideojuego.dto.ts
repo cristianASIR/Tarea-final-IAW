@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber } from "class-validator";
+import { IsDate, IsNotEmpty, IsNumber } from "class-validator";
 
 export class CreateCestavideojuegoDto {
     @IsNotEmpty()
@@ -10,4 +10,7 @@ export class CreateCestavideojuegoDto {
     @IsNotEmpty()
     @IsNumber()
     cantidad: number;
+    @IsNotEmpty()
+    @IsDate()
+    fecha_compra: Date;
 }

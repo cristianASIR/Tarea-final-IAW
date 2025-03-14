@@ -6,10 +6,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGene
 export class Cesta {
  @PrimaryGeneratedColumn()
  idcesta: number
- @Column()
- producto: string
- @Column()
- fecha_compra: Date
+
 
  //Cesta recoje el Idcliente para conocer a que cliente pertenece
  @OneToOne( () => Cliente, (cliente) => cliente.cesta)

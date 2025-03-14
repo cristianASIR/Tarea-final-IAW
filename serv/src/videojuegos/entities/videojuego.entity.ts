@@ -11,6 +11,10 @@ export class Videojuego {
  precio: number
  @Column()
  descripcion: string
+ @Column()
+ descuento: number
+ @Column()
+ imagen: string
 
  //Un videojuego puede estar en muchas cestas
  @OneToMany( () => Cestavideojuego, (cv) => cv.videojuegos,)
