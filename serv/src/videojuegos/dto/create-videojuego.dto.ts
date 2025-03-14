@@ -14,4 +14,6 @@ export class CreateVideojuegoDto {
     precio: number;
     @IsNumber()
     descuento: number;
+    @IsString()
+    imagen: string;
 }
