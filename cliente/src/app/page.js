@@ -41,56 +41,12 @@ export default function Home() {
       descuento: 18, // 🔥 18% de descuento
       imagen: "https://image.api.playstation.com/vulcan/ap/rnd/202301/2605/54BqvGNsYNo4YtHlvzpbprEX.png",
     },
-    {
-      id: 6,
-      nombre: "Doom Eternal",
-      precio: 39.99,
-      descuento: 12, // 🔥 12% de descuento
-      imagen: "https://www.nintendo.com/eu/media/images/10_share_images/games_15/nintendo_switch_4/H2x1_NSwitch_DoomEternal.jpg",
-    },
 
-    // 🎮 Juegos sin descuento
-    {
-      id: 7,
-      nombre: "Elden Ring",
-      precio: 49.99,
-      imagen: "https://www.mobygames.com/images/covers/l/775869-elden-ring-xbox-series-front-cover.jpg",
-    },
-    {
-      id: 8,
-      nombre: "God of War",
-      precio: 44.99,
-      imagen: "https://upload.wikimedia.org/wikipedia/en/a/a7/God_of_War_4_cover.jpg",
-    },
-    {
-      id: 9,
-      nombre: "Hogwarts Legacy",
-      precio: 59.99,
-      imagen: "https://cdn1.epicgames.com/offer/e97659b501af4e3981d5430dad170911/EGS_HogwartsLegacy_AvalancheSoftware_S1_2560x1440-2baf3188eb3c1aa248bcc1af6a927b7e",
-    },
-    {
-      id: 10,
-      nombre: "Final Fantasy VII Remake",
-      precio: 59.99,
-      imagen: "https://image.api.playstation.com/vulcan/img/rnd/202010/0723/vDLeyNzrJdGwabFlEo44GkEZ.png?w=440",
-    },
-    {
-      id: 11,
-      nombre: "Spider-Man: Miles Morales",
-      precio: 49.99,
-      imagen: "https://cdn1.epicgames.com/offer/f696430be718494fac1d6542cfb22542/EGS_MarvelsSpiderManMilesMorales_InsomniacGamesNixxesSoftware_S1_2560x1440-a0518b9f9f36a05294e37448df8a27a0",
-    },
-    {
-      id: 12,
-      nombre: "The Legend of Zelda: Breath of the Wild",
-      precio: 59.99,
-      imagen: "https://www.zelda.com/breath-of-the-wild/assets/icons/BOTW-Share_icon.jpg",
-    },
   ]);
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center text-primary mb-4">🎮 Tienda de Videojuegos</h1>
+      <h1 className="text-center text-primary mb-4">Ofertas de la semana</h1>
       <div className="row justify-content-center">
         {productos.map((producto) => (
           <div key={producto.id} className="col-md-4 mb-4">
