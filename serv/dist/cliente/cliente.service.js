@@ -19,8 +19,10 @@ const typeorm_2 = require("typeorm");
 const cliente_entity_1 = require("./entities/cliente.entity");
 const bcrypt = require("bcrypt");
 let ClienteService = class ClienteService {
+    clienteService;
     clienteRepository;
-    constructor(clienteRepository) {
+    constructor(clienteService, clienteRepository) {
+        this.clienteService = clienteService;
         this.clienteRepository = clienteRepository;
     }
     async create(createClienteDto) {
@@ -62,7 +64,8 @@ let ClienteService = class ClienteService {
 exports.ClienteService = ClienteService;
 exports.ClienteService = ClienteService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(cliente_entity_1.Cliente)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(cliente_entity_1.Cliente)),
+    __metadata("design:paramtypes", [ClienteService,
+        typeorm_2.Repository])
 ], ClienteService);
 //# sourceMappingURL=cliente.service.js.map
