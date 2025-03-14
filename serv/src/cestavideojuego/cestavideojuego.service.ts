@@ -10,12 +10,36 @@ export class CestavideojuegoService {
   constructor(
     @InjectRepository(Cestavideojuego)
     private readonly cestavideojuegoRepository: Repository<Cestavideojuego>,
+    private readonly cestaRepository: Repository<Cestavideojuego>,
+    private readonly videojuegoRepository: Repository<Cestavideojuego>,
   ) {}
 
   async create(createDto: CreateCestavideojuegoDto): Promise<Cestavideojuego> {
-    const cestavideojuego = this.cestavideojuegoRepository.create(createDto);
-    return await this.cestavideojuegoRepository.save(cestavideojuego);
+    const { id_cesta, id_producto, cantidad, fecha_compra } = createDto;
+  
+    // 1. Buscas la cesta
+    const cesta = await this.cestaRepository.findOneBy({ idcesta: id_cesta });
+    if (!cesta) {
+      throw new NotFoundException(`No existe cesta con id: ${id_cesta}`);
+    }
+  
+    // 2. Buscas el videojuego
+    const videojuego = await this.videojuegoRepository.findOneBy({ idproducto: id_producto });
+    if (!videojuego) {
+      throw new NotFoundException(`No existe videojuego con id: ${id_producto}`);
+    }
+  
+    // 3. Creas la relación
+    const nuevoCestaVideojuego = this.cestavideojuegoRepository.create({
+      cantidad,
+      fecha_compra,
+      cesta,           // asignas el objeto completo
+      videojuegos: videojuego,
+    });
+  
+    return this.cestavideojuegoRepository.save(nuevoCestaVideojuego);
   }
+  
 
   async findAll(): Promise<Cestavideojuego[]> {
     return await this.cestavideojuegoRepository.find({
@@ -49,6 +73,6 @@ export class CestavideojuegoService {
     const result = await this.cestavideojuegoRepository.delete(id);
     if (result.affected === 0) {
       throw new NotFoundException(`Cestavideojuego con id ${id} no encontrado`);
-    }
-  }
+    }
+  }
 }
