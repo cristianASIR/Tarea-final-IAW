@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cliente = void 0;
-const cesta_entity_1 = require("../../cesta/entities/cesta.entity");
+const cesta_entity_1 = require("src/cesta/entities/cesta.entity");
 const typeorm_1 = require("typeorm");
 let Cliente = class Cliente {
     idcliente;

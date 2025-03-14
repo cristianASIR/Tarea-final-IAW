@@ -3,11 +3,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import useCarrito from "@/store/useCarrito";
 
 export default function Carrito() {
-  const { carrito, eliminarProducto, actualizarCantidad } = useCarrito();
+  const { carrito, eliminarProducto, actualizarCantidad, vaciarCarrito } = useCarrito();
 
-  // 📌 Calcular el total del carrito
+  // 📌 Calcular el precio final con descuento
+  const calcularPrecio = (producto) => {
+    return producto.descuento
+      ? (producto.precio - (producto.precio * producto.descuento) / 100).toFixed(2)
+      : producto.precio.toFixed(2);
+  };
+
   const precioTotal = carrito.reduce(
-    (total, producto) => total + producto.precio * producto.cantidad,
+    (total, producto) => total + calcularPrecio(producto) * producto.cantidad,
     0
   );
 
@@ -24,7 +30,6 @@ export default function Carrito() {
               <div className="card bg-dark text-white shadow-lg">
                 <div className="row g-0 align-items-center">
                   
-                  {/* 📌 Imagen del producto */}
                   <div className="col-4">
                     <img
                       src={producto.imagen}
@@ -34,52 +39,22 @@ export default function Carrito() {
                     />
                   </div>
 
-                  {/* 📌 Info del Producto */}
                   <div className="col-8">
                     <div className="card-body">
                       <h5 className="card-title">{producto.nombre}</h5>
-                      <p className="card-text text-warning fw-bold">
-                        {producto.precio} €
-                      </p>
+                      {producto.descuento ? (
+                        <p className="card-text">
+                          <span className="text-danger fw-bold">{calcularPrecio(producto)} €</span>{" "}
+                          <span className="text-muted text-decoration-line-through">
+                            {producto.precio.toFixed(2)} €
+                          </span>{" "}
+                          <span className="badge bg-warning text-dark">-{producto.descuento}%</span>
+                        </p>
+                      ) : (
+                        <p className="card-text text-warning fw-bold">{producto.precio.toFixed(2)} €</p>
+                      )}
 
-                      {/* 📌 Controles de Cantidad */}
-                      <div className="d-flex align-items-center gap-2">
-                        <button
-                          className="btn btn-sm btn-outline-light"
-                          onClick={() =>
-                            actualizarCantidad(producto.id, Math.max(1, producto.cantidad - 1))
-                          }
-                        >
-                          ➖
-                        </button>
-
-                        <input
-                          type="number"
-                          value={producto.cantidad}
-                          onChange={(e) =>
-                            actualizarCantidad(producto.id, Number(e.target.value))
-                          }
-                          className="form-control text-center w-25"
-                          min="1"
-                        />
-
-                        <button
-                          className="btn btn-sm btn-outline-light"
-                          onClick={() =>
-                            actualizarCantidad(producto.id, producto.cantidad + 1)
-                          }
-                        >
-                          ➕
-                        </button>
-                      </div>
-
-                      {/* 📌 Botón de eliminar */}
-                      <button
-                        onClick={() => eliminarProducto(producto.id)}
-                        className="btn btn-danger btn-sm mt-2 w-100"
-                      >
-                        ❌ Eliminar
-                      </button>
+                      <button onClick={() => eliminarProducto(producto.id)} className="btn btn-danger btn-sm mt-2 w-100">❌ Eliminar</button>
                     </div>
                   </div>
                 </div>
@@ -87,17 +62,21 @@ export default function Carrito() {
             </div>
           ))}
 
-          {/* 📌 Sección del Total */}
           <div className="col-md-6 mt-4">
             <div className="alert alert-info text-center fs-4 fw-bold">
               💰 Total: {precioTotal.toFixed(2)} €
             </div>
+            <button className="btn btn-danger w-100 mt-2" onClick={vaciarCarrito}>🗑 Vaciar Carrito</button>
           </div>
         </div>
       )}
     </div>
   );
 }
+
+
+
+
 
 
 
