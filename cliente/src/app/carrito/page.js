@@ -5,7 +5,6 @@ import useCarrito from "@/store/useCarrito";
 export default function Carrito() {
   const { carrito, eliminarProducto, actualizarCantidad, vaciarCarrito } = useCarrito();
 
-  // 📌 Calcular el precio final con descuento
   const calcularPrecio = (producto) => {
     return producto.descuento
       ? (producto.precio - (producto.precio * producto.descuento) / 100).toFixed(2)
@@ -54,6 +53,12 @@ export default function Carrito() {
                         <p className="card-text text-warning fw-bold">{producto.precio.toFixed(2)} €</p>
                       )}
 
+                      <div className="d-flex align-items-center gap-2">
+                        <button className="btn btn-sm btn-outline-light" onClick={() => actualizarCantidad(producto.id, producto.cantidad - 1)}>➖</button>
+                        <span className="text-white">{producto.cantidad}</span>
+                        <button className="btn btn-sm btn-outline-light" onClick={() => actualizarCantidad(producto.id, producto.cantidad + 1)}>➕</button>
+                      </div>
+
                       <button onClick={() => eliminarProducto(producto.id)} className="btn btn-danger btn-sm mt-2 w-100">❌ Eliminar</button>
                     </div>
                   </div>
@@ -62,17 +67,28 @@ export default function Carrito() {
             </div>
           ))}
 
+          {/* Sección del Total y Botones */}
           <div className="col-md-6 mt-4">
             <div className="alert alert-info text-center fs-4 fw-bold">
               💰 Total: {precioTotal.toFixed(2)} €
             </div>
+            
+            {/* Botón para vaciar carrito */}
             <button className="btn btn-danger w-100 mt-2" onClick={vaciarCarrito}>🗑 Vaciar Carrito</button>
+
+            {/* Botón de Comprar (solo aparecerá si hay productos) */}
+            {carrito.length > 0 && (
+              <button className="btn btn-success w-100 mt-3 fw-bold">
+                🛒 Comprar
+              </button>
+            )}
           </div>
         </div>
       )}
     </div>
   );
 }
+
 
 
 

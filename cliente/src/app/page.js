@@ -2,7 +2,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import ProductoCard from "@/components/ProductoCard";
-import "@/styles/ofertas.css"; // 🔹 Importamos el CSS con el efecto neón
+import "@/styles/ofertas.css";
 
 export default function Home() {
   const [productos] = useState([
