@@ -13,7 +13,7 @@ exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcrypt");
-const cliente_service_1 = require("../cliente/cliente.service");
+const cliente_service_1 = require("src/cliente/cliente.service");
 let AuthService = class AuthService {
     clienteService;
     jwtService;

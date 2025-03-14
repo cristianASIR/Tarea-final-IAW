@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const cesta_entity_1 = require("./entities/cesta.entity");
-const cliente_entity_1 = require("../cliente/entities/cliente.entity");
+const cliente_entity_1 = require("src/cliente/entities/cliente.entity");
 let CestaService = class CestaService {
     cestaRepository;
     clienteRepository;
