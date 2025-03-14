@@ -1,0 +1,32 @@
+/* Efecto neón para "Ofertas de la Semana" */
+.neon-title {
+    font-family: "Orbitron", sans-serif;
+    font-size: 36px;
+    text-transform: uppercase;
+    color: #00ccff;
+    text-shadow: 0 0 5px #00ccff, 0 0 10px #00ccff, 0 0 20px #0099cc;
+    animation: neonBlink 1.5s infinite alternate;
+    margin-top: 80px; /* Margen entre el navbar y el título */
+  }
+  
+  /* Animación de parpadeo */
+  @keyframes neonBlink {
+    0% {
+      text-shadow: 0 0 5px white, 0 0 10px white, 0 0 20px white;
+    }
+    50% {
+      text-shadow: 0 0 8px white, 0 0 16px white, 0 0 30px white;
+    }
+    100% {
+      text-shadow: 0 0 5px #00ccff, 0 0 10px #00ccff, 0 0 20px #0099cc;
+    }
+  }
+  
+  /* Centrar el título y darle un poco de margen */
+  .neon-title {
+    display: block;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  
