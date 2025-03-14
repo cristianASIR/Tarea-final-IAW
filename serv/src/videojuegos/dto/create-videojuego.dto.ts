@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsDecimal, IsNotEmpty, IsNumber, IsString } from "class-validator";
 export class CreateVideojuegoDto {
     @IsNotEmpty()
     @IsNumber()
@@ -12,4 +12,6 @@ export class CreateVideojuegoDto {
     @IsNotEmpty()
     @IsNumber()
     precio: number;
+    @IsNumber()
+    descuento: number;
 }
