@@ -5,7 +5,7 @@ import { VideojuegoService } from './videojuegos.service';
 import { VideojuegosController } from './videojuegos.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Videojuego])],
+  imports: [TypeOrmModule.forFeature([Videojuego], )],
   controllers: [VideojuegosController],
   providers: [VideojuegoService],
 })
