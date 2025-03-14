@@ -1,13 +1,10 @@
-import { IsNotEmpty, IsNumber } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional } from "class-validator";
 
 export class CreateCestaDto {
     @IsNotEmpty()
     @IsNumber()
     id_cliente: number;
-    @IsNotEmpty()
-    @IsNumber()
-    id_producto: number;
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
     cantidad: number;
 }
