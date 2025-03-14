@@ -9,6 +9,7 @@ import { UpdateClienteDto } from './dto/update-cliente.dto';
 @Injectable()
 export class ClienteService {
   constructor(
+    private readonly clienteService: ClienteService,
     @InjectRepository(Cliente)
     private readonly clienteRepository: Repository<Cliente>,
   ) {}
