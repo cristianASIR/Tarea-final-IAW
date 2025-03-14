@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cestavideojuego = void 0;
-const cesta_entity_1 = require("../../cesta/entities/cesta.entity");
-const videojuego_entity_1 = require("../../videojuegos/entities/videojuego.entity");
+const cesta_entity_1 = require("src/cesta/entities/cesta.entity");
+const videojuego_entity_1 = require("src/videojuegos/entities/videojuego.entity");
 const typeorm_1 = require("typeorm");
 let Cestavideojuego = class Cestavideojuego {
     id;
