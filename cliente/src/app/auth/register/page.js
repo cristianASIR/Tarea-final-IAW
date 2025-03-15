@@ -6,14 +6,35 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [mensaje, setMensaje] = useState(""); // Para mostrar mensajes de éxito o error
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
-      alert("Las contraseñas no coinciden");
+      setMensaje("❌ Las contraseñas no coinciden");
       return;
     }
-    console.log("Registrando usuario:", email, password);
+
+    const datosUsuario = { email, password };
+
+    try {
+      const respuesta = await fetch("http://localhost:4000/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(datosUsuario),
+      });
+
+      const data = await respuesta.json();
+
+      if (respuesta.ok) {
+        setMensaje("✅ Registro realizado con éxito. Ahora puedes iniciar sesión.");
+      } else {
+        setMensaje(`❌ Error: ${data.message || "No se pudo registrar"}`);
+      }
+    } catch (error) {
+      setMensaje("❌ Error al conectar con el servidor.");
+    }
   };
 
   return (
@@ -60,6 +81,8 @@ export default function Register() {
           </button>
         </form>
 
+        {mensaje && <p className="text-center mt-3">{mensaje}</p>}
+
         <p className="text-center mt-3">
           ¿Ya tienes cuenta?{" "}
           <Link href="/auth/login" className="text-info">
@@ -70,5 +93,9 @@ export default function Register() {
     </div>
   );
 }
+
+
+
+
 
 

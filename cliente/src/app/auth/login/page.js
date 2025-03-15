@@ -1,14 +1,52 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation"; // Para redirigir después del login
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [mensaje, setMensaje] = useState(""); // Para mostrar mensajes de error o éxito
+  const router = useRouter();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Iniciando sesión con:", email, password);
+
+    if (!email || !password) {
+      setMensaje("❌ Por favor, completa todos los campos.");
+      return;
+    }
+
+    const credenciales = { email, password };
+
+    console.log("📡 Enviando credenciales al servidor:", credenciales);
+
+    try {
+      const respuesta = await fetch("http://localhost:4000/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credenciales),
+        credentials: "include", // 🔹 Si el backend requiere cookies
+      });
+
+      console.log("📨 Estado del servidor:", respuesta.status);
+
+      const data = await respuesta.json();
+      console.log("📨 Respuesta del servidor:", data);
+
+      if (respuesta.ok && data.token) {
+        localStorage.setItem("token", data.token); // Guarda el token JWT en LocalStorage
+        setMensaje("✅ Inicio de sesión exitoso. Redirigiendo...");
+
+        // Redirigir al usuario después de 2 segundos
+        setTimeout(() => router.push("/"), 2000);
+      } else {
+        setMensaje(`❌ Error: ${data.message || "Credenciales incorrectas"}`);
+      }
+    } catch (error) {
+      console.error("❌ Error de conexión:", error);
+      setMensaje("❌ Error al conectar con el servidor.");
+    }
   };
 
   return (
@@ -43,6 +81,8 @@ export default function Login() {
             Iniciar Sesión
           </button>
         </form>
+
+        {mensaje && <p className="text-center mt-3">{mensaje}</p>}
 
         <p className="text-center mt-3">
           ¿No tienes cuenta?{" "}
