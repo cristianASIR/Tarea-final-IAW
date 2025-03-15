@@ -16,8 +16,8 @@ PORT=4000
 host=localhost
 DBUSERNAME=cristian
 password=usuario
-database=proyectyo_iaw
-BBDD=proyectyo_iaw
+database=proyecto_iaw
+BBDD=proyecto_iaw
 =======
 # Instalar dependencias
  npm install react-bootstrap bootstrap @mui/material @emotion/react @emotion/styled
