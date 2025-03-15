@@ -3,37 +3,44 @@ import { useState } from "react";
 import Link from "next/link";
 
 export default function Register() {
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
   const [email, setEmail] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [direccion, setDireccion] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [mensaje, setMensaje] = useState(""); // Para mostrar mensajes de éxito o error
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      setMensaje("❌ Las contraseñas no coinciden");
+      alert("Las contraseñas no coinciden");
       return;
     }
 
-    const datosUsuario = { email, password };
+    const usuario = {
+      nombre,
+      apellido,
+      email,
+      telefono,
+      direccion,
+      password,
+    };
 
-    try {
-      const respuesta = await fetch("http://localhost:4000/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(datosUsuario),
-      });
+    // Hace la solicitud al backend
+    const response = await fetch("http://localhost:4000/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(usuario),
+    });
 
-      const data = await respuesta.json();
-
-      if (respuesta.ok) {
-        setMensaje("✅ Registro realizado con éxito. Ahora puedes iniciar sesión.");
-      } else {
-        setMensaje(`❌ Error: ${data.message || "No se pudo registrar"}`);
-      }
-    } catch (error) {
-      setMensaje("❌ Error al conectar con el servidor.");
+    if (response.ok) {
+      alert("Registro exitoso");
+    } else {
+      alert("Error en el registro");
     }
   };
 
@@ -44,12 +51,56 @@ export default function Register() {
 
         <form onSubmit={handleRegister} className="mt-3">
           <div className="mb-3">
+            <label className="form-label">Nombre</label>
+            <input
+              type="text"
+              className="form-control"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Apellido</label>
+            <input
+              type="text"
+              className="form-control"
+              value={apellido}
+              onChange={(e) => setApellido(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-3">
             <label className="form-label">Correo Electrónico</label>
             <input
               type="email"
               className="form-control"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Teléfono</label>
+            <input
+              type="text"
+              className="form-control"
+              value={telefono}
+              onChange={(e) => setTelefono(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Dirección</label>
+            <input
+              type="text"
+              className="form-control"
+              value={direccion}
+              onChange={(e) => setDireccion(e.target.value)}
               required
             />
           </div>
@@ -80,8 +131,6 @@ export default function Register() {
             Registrarse
           </button>
         </form>
-
-        {mensaje && <p className="text-center mt-3">{mensaje}</p>}
 
         <p className="text-center mt-3">
           ¿Ya tienes cuenta?{" "}
