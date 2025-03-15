@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateCestavideojuegoDto } from './dto/create-cestavideojuego.dto';
@@ -23,26 +23,15 @@ export class CestavideojuegoService {
   async create(createDto: CreateCestavideojuegoDto): Promise<Cestavideojuego> {
     const { id_cesta, id_producto, cantidad, fecha_compra } = createDto;
 
-    // 1. Buscas la cesta
-    const cesta = await this.cestaRepository.findOneBy({ idcesta: id_cesta });
-    if (!cesta) {
-      throw new NotFoundException(`No existe cesta con id: ${id_cesta}`);
-    }
-
-    // 2. Buscas el videojuego
-    const videojuego = await this.videojuegoRepository.findOneBy({ idproducto: id_producto });
-    if (!videojuego) {
-      throw new NotFoundException(`No existe videojuego con id: ${id_producto}`);
-    }
-
-    // 3. Creas la relación
+    // Si NO quieres verificar la existencia en la BD, asigna directamente los IDs:
     const nuevoCestaVideojuego = this.cestavideojuegoRepository.create({
       cantidad,
       fecha_compra,
-      cesta,              // asignas el objeto completo
-      videojuegos: videojuego,
+      cesta: { idcesta: id_cesta } as Cesta,        // Foreign key para Cesta
+      videojuegos: { idproducto: id_producto } as Videojuego, // Foreign key para Videojuego
     });
 
+    // Guarda el nuevo registro en la tabla "cestavideojuego"
     return this.cestavideojuegoRepository.save(nuevoCestaVideojuego);
   }
 
@@ -67,6 +56,9 @@ export class CestavideojuegoService {
     id: number,
     updateDto: UpdateCestavideojuegoDto,
   ): Promise<Cestavideojuego> {
+    if (Object.keys(updateDto).length === 0) {
+      throw new BadRequestException('No se han enviado campos para actualizar');
+    }
     const result = await this.cestavideojuegoRepository.update(id, updateDto);
     if (result.affected === 0) {
       throw new NotFoundException(`Cestavideojuego con id ${id} no encontrado`);
