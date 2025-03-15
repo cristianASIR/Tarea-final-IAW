@@ -26,6 +26,13 @@
       "precio": 44.99,
       "descuento": 25,
       "imagen": "https://cdn1.epicgames.com/400347196e674de89c23cc2a7f2121db/offer/AC%20KINGDOM%20PREORDER_STANDARD%20EDITION_EPIC_Key_Art_Wide_3840x2160-3840x2160-485fe17203671386c71bde8110886c7d.jpg"
+    },
+    {
+      "idproducto": 5,
+      "nombre": "Resident Evil Village",
+      "precio": 49.99,
+      "descuento": 18,
+      "imagen": "https://image.api.playstation.com/vulcan/ap/rnd/202301/2605/54BqvGNsYNo4YtHlvzpbprEX.png"
     }
   ]
   
