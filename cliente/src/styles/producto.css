@@ -1,0 +1,32 @@
+/* 📌 Efecto neón para los títulos de los videojuegos */
+.neon-text {
+    font-family: "Orbitron", sans-serif; /* Fuente futurista */
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #00ccff;
+    text-shadow: 0 0 5px #00ccff, 0 0 10px #00ccff, 0 0 20px #0099cc;
+    transition: text-shadow 0.3s ease-in-out;
+  }
+  
+  /* 📌 Efecto hover para intensificar el resplandor */
+  .neon-text:hover {
+    text-shadow: 0 0 8px #00ccff, 0 0 16px #00ccff, 0 0 30px #0099cc;
+  }
+  
+  /* 📌 Animación  para que el neón parpadee */
+  @keyframes neonBlink {
+    0% {
+      text-shadow: 0 0 5px #00ccff, 0 0 10px #00ccff, 0 0 20px #0099cc;
+    }
+    50% {
+      text-shadow: 0 0 8px #00ccff, 0 0 16px #00ccff, 0 0 30px #0099cc;
+    }
+    100% {
+      text-shadow: 0 0 5px #00ccff, 0 0 10px #00ccff, 0 0 20px #0099cc;
+    }
+  }
+  
+  .neon-text {
+    animation: neonBlink 1.5s infinite alternate;
+  }
+  

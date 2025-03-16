@@ -7,7 +7,7 @@ import { FaShoppingCart, FaUserPlus, FaUser } from "react-icons/fa";
 export default function Navbar() {
   const [carrito, setCarrito] = useState([]);
 
-  // 📌 Cargar el carrito desde localStorage
+  // Cargar el carrito desde localStorage
   useEffect(() => {
     const carritoGuardado = JSON.parse(localStorage.getItem("carrito")) || [];
     setCarrito(carritoGuardado);
@@ -16,7 +16,7 @@ export default function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow-lg">
       <div className="container">
-        {/* 📌 Logo de la Tienda */}
+        {/* Logo de la Tienda */}
         <Link href="/" className="navbar-brand fw-bold">
           🎮 Tienda de videojuegos
         </Link>
@@ -33,7 +33,7 @@ export default function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* 📌 Enlaces del Navbar */}
+        {/* Enlaces del Navbar */}
         <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
@@ -43,7 +43,7 @@ export default function Navbar() {
           </ul>
         </div>
 
-        {/* 📌 Botones de Usuario y Carrito */}
+        {/* Botones de Usuario y Carrito */}
         <div className="d-flex gap-2">
           {/* Botón de Login */}
           <Link href="/auth/login" className="btn btn-light d-flex align-items-center">

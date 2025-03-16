@@ -1,38 +1,18 @@
 "use client";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useState, useEffect } from "react";
+import useCarrito from "@/store/useCarrito";
 
 export default function Carrito() {
-  const [carrito, setCarrito] = useState([]);
+  const { carrito, eliminarProducto, actualizarCantidad, vaciarCarrito } = useCarrito();
 
-  // 📌 Cargar el carrito desde localStorage al cargar la página
-  useEffect(() => {
-    const carritoGuardado = JSON.parse(localStorage.getItem("carrito")) || [];
-    setCarrito(carritoGuardado);
-  }, []);
-
-  // 📌 Guardar el carrito en localStorage cada vez que cambia
-  useEffect(() => {
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-  }, [carrito]);
-
-  // 📌 Función para eliminar un producto
-  const eliminarProducto = (id) => {
-    const nuevoCarrito = carrito.filter((producto) => producto.id !== id);
-    setCarrito(nuevoCarrito);
+  const calcularPrecio = (producto) => {
+    return producto.descuento
+      ? (producto.precio - (producto.precio * producto.descuento) / 100).toFixed(2)
+      : producto.precio.toFixed(2);
   };
 
-  // 📌 Función para actualizar la cantidad de un producto
-  const actualizarCantidad = (id, cantidad) => {
-    const nuevoCarrito = carrito.map((producto) =>
-      producto.id === id ? { ...producto, cantidad: Math.max(1, cantidad) } : producto
-    );
-    setCarrito(nuevoCarrito);
-  };
-
-  // 📌 Calcular el total del carrito
   const precioTotal = carrito.reduce(
-    (total, producto) => total + producto.precio * producto.cantidad,
+    (total, producto) => total + calcularPrecio(producto) * producto.cantidad,
     0
   );
 
@@ -49,7 +29,6 @@ export default function Carrito() {
               <div className="card bg-dark text-white shadow-lg">
                 <div className="row g-0 align-items-center">
                   
-                  {/* 📌 Imagen del producto */}
                   <div className="col-4">
                     <img
                       src={producto.imagen}
@@ -59,46 +38,28 @@ export default function Carrito() {
                     />
                   </div>
 
-                  {/* 📌 Info del Producto */}
                   <div className="col-8">
                     <div className="card-body">
                       <h5 className="card-title">{producto.nombre}</h5>
-                      <p className="card-text text-warning fw-bold">
-                        {producto.precio} €
-                      </p>
+                      {producto.descuento ? (
+                        <p className="card-text">
+                          <span className="text-danger fw-bold">{calcularPrecio(producto)} €</span>{" "}
+                          <span className="text-muted text-decoration-line-through">
+                            {producto.precio.toFixed(2)} €
+                          </span>{" "}
+                          <span className="badge bg-warning text-dark">-{producto.descuento}%</span>
+                        </p>
+                      ) : (
+                        <p className="card-text text-warning fw-bold">{producto.precio.toFixed(2)} €</p>
+                      )}
 
-                      {/* 📌 Controles de Cantidad */}
                       <div className="d-flex align-items-center gap-2">
-                        <button
-                          className="btn btn-sm btn-outline-light"
-                          onClick={() => actualizarCantidad(producto.id, producto.cantidad - 1)}
-                        >
-                          ➖
-                        </button>
-
-                        <input
-                          type="number"
-                          value={producto.cantidad}
-                          onChange={(e) => actualizarCantidad(producto.id, Number(e.target.value))}
-                          className="form-control text-center w-25"
-                          min="1"
-                        />
-
-                        <button
-                          className="btn btn-sm btn-outline-light"
-                          onClick={() => actualizarCantidad(producto.id, producto.cantidad + 1)}
-                        >
-                          ➕
-                        </button>
+                        <button className="btn btn-sm btn-outline-light" onClick={() => actualizarCantidad(producto.id, producto.cantidad - 1)}>➖</button>
+                        <span className="text-white">{producto.cantidad}</span>
+                        <button className="btn btn-sm btn-outline-light" onClick={() => actualizarCantidad(producto.id, producto.cantidad + 1)}>➕</button>
                       </div>
 
-                      {/* 📌 Botón de eliminar */}
-                      <button
-                        onClick={() => eliminarProducto(producto.id)}
-                        className="btn btn-danger btn-sm mt-2 w-100"
-                      >
-                        ❌ Eliminar
-                      </button>
+                      <button onClick={() => eliminarProducto(producto.id)} className="btn btn-danger btn-sm mt-2 w-100">❌ Eliminar</button>
                     </div>
                   </div>
                 </div>
@@ -106,17 +67,31 @@ export default function Carrito() {
             </div>
           ))}
 
-          {/* 📌 Sección del Total */}
+          {/* Sección del Total y Botones */}
           <div className="col-md-6 mt-4">
             <div className="alert alert-info text-center fs-4 fw-bold">
               💰 Total: {precioTotal.toFixed(2)} €
             </div>
+            
+            {/* Botón para vaciar carrito */}
+            <button className="btn btn-danger w-100 mt-2" onClick={vaciarCarrito}>🗑 Vaciar Carrito</button>
+
+            {/* Botón de Comprar (solo aparecerá si hay productos) */}
+            {carrito.length > 0 && (
+              <button className="btn btn-success w-100 mt-3 fw-bold">
+                🛒 Comprar
+              </button>
+            )}
           </div>
         </div>
       )}
     </div>
   );
 }
+
+
+
+
 
 
 

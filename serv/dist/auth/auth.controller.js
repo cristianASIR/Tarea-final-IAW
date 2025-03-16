@@ -16,7 +16,7 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const passport_1 = require("@nestjs/passport");
-const create_cliente_dto_1 = require("../cliente/dto/create-cliente.dto");
+const create_cliente_dto_1 = require("src/cliente/dto/create-cliente.dto");
 let AuthController = class AuthController {
     authService;
     constructor(authService) {
