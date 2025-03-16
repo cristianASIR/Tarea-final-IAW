@@ -29,14 +29,18 @@ export default function Login() {
       const data = await respuesta.json();
 
       if (respuesta.ok && data.token) {
-        localStorage.setItem("token", data.token); // ✅ Guardamos el token
+        // ✅ Guardamos el token en localStorage y sessionStorage para más compatibilidad
+        localStorage.setItem("token", data.token);
+        sessionStorage.setItem("token", data.token);
+
+        // ✅ Aviso de éxito y redirección a la página de videojuegos
         setMensaje("✅ Inicio de sesión exitoso. Redirigiendo...");
+        
+        // ✅ Disparar evento para actualizar el Navbar sin recargar
+        window.dispatchEvent(new Event("authChange"));
 
-        // 🔹 Notificamos al navbar que hay un nuevo usuario autenticado
-        window.dispatchEvent(new Event("storage"));
-
-        // 🔹 Redirigir a "/videojuegos"
-        setTimeout(() => router.push("/videojuegos"), 1500);
+        // ✅ Redirigir al usuario a "/videojuegos"
+        setTimeout(() => router.push("/videojuegos"), 1000);
       } else {
         setMensaje(`❌ Error: ${data.message || "Credenciales incorrectas"}`);
       }
@@ -90,7 +94,6 @@ export default function Login() {
     </div>
   );
 }
-
 
 
 

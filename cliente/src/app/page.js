@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import ProductoCard from "@/components/ProductoCard";
 
 export default function Home() {
-  const [productos] = useState([]);
+  const [productos, setProducts] = useState([]);
     useEffect(() => {
       // Llamada a la API para obtener los productos
       fetch('http://localhost:4000/videojuegos') 
