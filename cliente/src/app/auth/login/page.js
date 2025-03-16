@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Para redirigir después del login
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [mensaje, setMensaje] = useState(""); // Para mostrar mensajes de error o éxito
+  const [mensaje, setMensaje] = useState("");
   const router = useRouter();
 
   const handleLogin = async (e) => {
@@ -19,32 +19,28 @@ export default function Login() {
 
     const credenciales = { email, password };
 
-    console.log("📡 Enviando credenciales al servidor:", credenciales);
-
     try {
       const respuesta = await fetch("http://localhost:4000/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credenciales),
-        credentials: "include", // 🔹 Si el backend requiere cookies
       });
 
-      console.log("📨 Estado del servidor:", respuesta.status);
-
       const data = await respuesta.json();
-      console.log("📨 Respuesta del servidor:", data);
 
       if (respuesta.ok && data.token) {
-        localStorage.setItem("token", data.token); // Guarda el token JWT en LocalStorage
+        localStorage.setItem("token", data.token); // ✅ Guardamos el token
         setMensaje("✅ Inicio de sesión exitoso. Redirigiendo...");
 
-        // Redirigir al usuario después de 2 segundos
-        setTimeout(() => router.push("/"), 2000);
+        // 🔹 Notificamos al navbar que hay un nuevo usuario autenticado
+        window.dispatchEvent(new Event("storage"));
+
+        // 🔹 Redirigir a "/videojuegos"
+        setTimeout(() => router.push("/videojuegos"), 1500);
       } else {
         setMensaje(`❌ Error: ${data.message || "Credenciales incorrectas"}`);
       }
     } catch (error) {
-      console.error("❌ Error de conexión:", error);
       setMensaje("❌ Error al conectar con el servidor.");
     }
   };
@@ -94,5 +90,7 @@ export default function Login() {
     </div>
   );
 }
+
+
 
 

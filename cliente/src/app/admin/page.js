@@ -1,0 +1,193 @@
+"use client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+export default function AdminVideojuegos() {
+  const [videojuegos, setVideojuegos] = useState([]);
+  const [nombre, setNombre] = useState("");
+  const [precio, setPrecio] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [imagen, setImagen] = useState("");
+  const [mensaje, setMensaje] = useState("");
+  const router = useRouter();
+
+  // ✅ Obtener videojuegos al cargar la página
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("No tienes permisos para ver esta página. Inicia sesión.");
+      router.push("/auth/login");
+      return;
+    }
+
+    fetchVideojuegos(token);
+  }, [router]);
+
+  // 🔹 Función para obtener la lista de videojuegos desde la API
+  const fetchVideojuegos = async (token) => {
+    try {
+      const respuesta = await fetch("http://localhost:4000/videojuegos", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!respuesta.ok) throw new Error("No se pudieron cargar los videojuegos");
+
+      const data = await respuesta.json();
+      setVideojuegos(data);
+    } catch (error) {
+      console.error("❌ Error cargando videojuegos:", error);
+    }
+  };
+
+  // 🔹 Función para agregar un nuevo videojuego
+  const handleAdd = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("No tienes permisos para realizar esta acción.");
+      return;
+    }
+
+    const nuevoVideojuego = { nombre, precio, descripcion, imagen };
+
+    try {
+      const respuesta = await fetch("http://localhost:4000/videojuegos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(nuevoVideojuego),
+      });
+
+      if (!respuesta.ok) throw new Error("Error al agregar el videojuego");
+
+      const data = await respuesta.json();
+      setVideojuegos([...videojuegos, data]); // 🔄 Actualizar lista de videojuegos
+      setMensaje("✅ Videojuego agregado correctamente");
+      setNombre("");
+      setPrecio("");
+      setDescripcion("");
+      setImagen("");
+    } catch (error) {
+      console.error("❌ Error al agregar videojuego:", error);
+      setMensaje("❌ No se pudo agregar el videojuego.");
+    }
+  };
+
+  // 🔹 Función para eliminar un videojuego
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("No tienes permisos para realizar esta acción.");
+      return;
+    }
+
+    const confirmDelete = window.confirm("¿Estás seguro de eliminar este videojuego?");
+    if (!confirmDelete) return;
+
+    try {
+      const respuesta = await fetch(`http://localhost:4000/videojuegos/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!respuesta.ok) throw new Error("No se pudo eliminar el videojuego");
+
+      alert("✅ Videojuego eliminado correctamente");
+      setVideojuegos(videojuegos.filter((juego) => juego.idproducto !== id)); // 🔄 Actualizar lista
+    } catch (error) {
+      console.error("❌ Error al eliminar videojuego:", error);
+      alert("❌ Hubo un problema al eliminar el videojuego.");
+    }
+  };
+
+  return (
+    <div className="container mt-5">
+      <h1 className="text-light mb-4">
+        🎮 Panel de Administración de Videojuegos
+      </h1>
+
+      {/* Formulario para agregar un nuevo videojuego */}
+      <div className="card p-4 bg-dark text-white shadow-lg border-0">
+        <h3 className="text-center">Agregar un nuevo videojuego</h3>
+        <form onSubmit={handleAdd} className="mt-3">
+          <div className="mb-3">
+            <label className="form-label">Nombre</label>
+            <input
+              type="text"
+              className="form-control"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Precio</label>
+            <input
+              type="number"
+              className="form-control"
+              value={precio}
+              onChange={(e) => setPrecio(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Descripción</label>
+            <textarea
+              className="form-control"
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Imagen URL</label>
+            <input
+              type="text"
+              className="form-control"
+              value={imagen}
+              onChange={(e) => setImagen(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-success w-100">Agregar Videojuego</button>
+        </form>
+      </div>
+
+      {mensaje && <p className="text-success text-center mt-3">{mensaje}</p>}
+
+      {/* Listado de videojuegos con mejor diseño */}
+      <h2 className="mt-5 text-light">📜 Lista de Videojuegos</h2>
+      <div className="row">
+        {videojuegos.length > 0 ? (
+          videojuegos.map((juego) => (
+            <div key={juego.idproducto} className="col-md-4 mb-4">
+              <div className="card bg-dark text-white shadow-lg border-0">
+                <img src={juego.imagen} className="card-img-top img-fluid rounded" alt={juego.nombre} style={{ height: "200px", objectFit: "cover" }} />
+                <div className="card-body">
+                  <h5 className="card-title text-center">{juego.nombre}</h5>
+                  <p className="text-center"><span role="img" aria-label="money">💰</span> Precio: ${juego.precio}</p>
+                  <p className="text-center">{juego.descripcion}</p>
+                  <button onClick={() => handleDelete(juego.idproducto)} className="btn btn-danger w-100">
+                    Eliminar
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-center text-light">⏳ Cargando videojuegos...</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+

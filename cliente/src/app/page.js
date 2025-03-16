@@ -7,7 +7,7 @@ export default function Home() {
   const [productos] = useState([]);
     useEffect(() => {
       // Llamada a la API para obtener los productos
-      fetch('http://localhost:4000/videojuegos') // Asegúrate de que la URL sea correcta
+      fetch('http://localhost:4000/videojuegos') 
           .then(response => response.json())
           .then(data => setProducts(data))
           .catch(error => console.error('Error fetching products:', error));
