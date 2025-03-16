@@ -36,10 +36,10 @@ export default function Login() {
 
       if (respuesta.ok && data.token) {
         localStorage.setItem("token", data.token); // Guarda el token JWT en LocalStorage
-        setMensaje("✅ Inicio de sesión exitoso. Redirigiendo...");
+        setMensaje("✅ Inicio de sesión exitoso. Redirigiendo a Administración...");
 
-        // Redirigir al usuario después de 2 segundos
-        setTimeout(() => router.push("/"), 2000);
+        // Redirigir al usuario a /administracion después de 2 segundos
+        setTimeout(() => router.push("/administracion"), 2000);
       } else {
         setMensaje(`❌ Error: ${data.message || "Credenciales incorrectas"}`);
       }
@@ -94,5 +94,3 @@ export default function Login() {
     </div>
   );
 }
-
-
