@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+                                                    
 export default function AdminVideojuegos() {
   const [videojuegos, setVideojuegos] = useState([]);
   const [nombre, setNombre] = useState("");
@@ -107,7 +107,7 @@ export default function AdminVideojuegos() {
       alert("❌ Hubo un problema al eliminar el videojuego.");
     }
   };
-
+ 
   return (
     <div className="container mt-5">
       <h1 className="text-light mb-4">
