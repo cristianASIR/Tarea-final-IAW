@@ -12,12 +12,14 @@ const cestavideojuego_service_1 = require("./cestavideojuego.service");
 const cestavideojuego_controller_1 = require("./cestavideojuego.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const cestavideojuego_entity_1 = require("./entities/cestavideojuego.entity");
+const cesta_entity_1 = require("../cesta/entities/cesta.entity");
+const videojuego_entity_1 = require("../videojuegos/entities/videojuego.entity");
 let CestavideojuegoModule = class CestavideojuegoModule {
 };
 exports.CestavideojuegoModule = CestavideojuegoModule;
 exports.CestavideojuegoModule = CestavideojuegoModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([cestavideojuego_entity_1.Cestavideojuego])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([cestavideojuego_entity_1.Cestavideojuego, cesta_entity_1.Cesta, videojuego_entity_1.Videojuego])],
         controllers: [cestavideojuego_controller_1.CestavideojuegoController],
         providers: [cestavideojuego_service_1.CestavideojuegoService],
     })

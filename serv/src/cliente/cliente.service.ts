@@ -15,15 +15,16 @@ export class ClienteService {
   ) {}
 
   async create(createClienteDto: CreateClienteDto): Promise<Cliente> {
-    // Se hashea la contraseña recibida en el DTO
-    const hashedPassword = await bcrypt.hash(createClienteDto.password, 10);
-    createClienteDto.password = hashedPassword;
-    
-    // Se crea la instancia de Cliente a partir del DTO
+    console.log("📌 Creando usuario con email:", createClienteDto.email);
+    console.log("🔑 Password recibido:", createClienteDto.password);
+
+    if (!createClienteDto.password.startsWith("$2b$")) {
+        console.error("❌ Error: La contraseña no está hasheada correctamente.");
+        throw new Error("Error interno al guardar la contraseña.");
+    }
+
     const cliente = this.clienteRepository.create(createClienteDto);
-    
-    // CAMBIO: Se asigna una nueva instancia de Cesta para que se cree automáticamente junto con el cliente.
-    cliente.cesta = new Cesta();
+    cliente.cesta = new Cesta(); 
     
     return await this.clienteRepository.save(cliente);
   }
@@ -57,7 +58,7 @@ export class ClienteService {
       throw new NotFoundException(`Cliente con id ${id} no encontrado`);
     }
   }
-  
+
   async findByEmail(email: string): Promise<Cliente | null> {
     const cliente = await this.clienteRepository.findOne({ where: { email } });
     return cliente;

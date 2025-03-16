@@ -15,6 +15,7 @@ class CreateCestavideojuegoDto {
     id_cesta;
     id_producto;
     cantidad;
+    fecha_compra;
 }
 exports.CreateCestavideojuegoDto = CreateCestavideojuegoDto;
 __decorate([
@@ -32,4 +33,9 @@ __decorate([
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], CreateCestavideojuegoDto.prototype, "cantidad", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsDate)(),
+    __metadata("design:type", Date)
+], CreateCestavideojuegoDto.prototype, "fecha_compra", void 0);
 //# sourceMappingURL=create-cestavideojuego.dto.js.map

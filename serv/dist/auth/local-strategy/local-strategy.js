@@ -17,14 +17,21 @@ const auth_service_1 = require("../auth.service");
 let LocalStrategy = class LocalStrategy extends (0, passport_1.PassportStrategy)(passport_local_1.Strategy) {
     authService;
     constructor(authService) {
-        super({ usernameField: 'email' });
+        super({ usernameField: 'email', passwordField: 'password' });
         this.authService = authService;
     }
-    async validate(creatreClienteDto) {
-        const user = await this.authService.validateUser(creatreClienteDto);
-        if (!user) {
-            throw new common_1.UnauthorizedException();
+    async validate(email, password) {
+        console.log("📌 Validando usuario con:", { email, password });
+        if (!email || !password) {
+            console.error("❌ Error: email o password no proporcionados.");
+            throw new common_1.UnauthorizedException("Email y contraseña son obligatorios.");
         }
+        const user = await this.authService.validateUser({ email, password });
+        if (!user) {
+            console.error("❌ Credenciales incorrectas. No se encontró usuario válido.");
+            throw new common_1.UnauthorizedException("Correo o contraseña incorrectos.");
+        }
+        console.log("✅ Usuario autenticado:", user.email);
         return user;
     }
 };

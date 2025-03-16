@@ -10,13 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Videojuego = void 0;
-const cestavideojuego_entity_1 = require("src/cestavideojuego/entities/cestavideojuego.entity");
+const cestavideojuego_entity_1 = require("../../cestavideojuego/entities/cestavideojuego.entity");
 const typeorm_1 = require("typeorm");
 let Videojuego = class Videojuego {
     idproducto;
     nombre;
     precio;
     descripcion;
+    descuento;
+    imagen;
     cestaVideojuegos;
 };
 exports.Videojuego = Videojuego;
@@ -36,6 +38,14 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Videojuego.prototype, "descripcion", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Videojuego.prototype, "descuento", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Videojuego.prototype, "imagen", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => cestavideojuego_entity_1.Cestavideojuego, (cv) => cv.videojuegos),
     __metadata("design:type", Array)

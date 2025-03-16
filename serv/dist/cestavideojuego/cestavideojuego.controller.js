@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const cestavideojuego_service_1 = require("./cestavideojuego.service");
 const create_cestavideojuego_dto_1 = require("./dto/create-cestavideojuego.dto");
 const update_cestavideojuego_dto_1 = require("./dto/update-cestavideojuego.dto");
-const jwt_guard_1 = require("src/auth/jwt/jwt.guard");
+const jwt_guard_1 = require("../auth/jwt/jwt.guard");
 let CestavideojuegoController = class CestavideojuegoController {
     cestavideojuegoService;
     constructor(cestavideojuegoService) {

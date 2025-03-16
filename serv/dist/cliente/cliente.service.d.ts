@@ -3,9 +3,8 @@ import { Cliente } from './entities/cliente.entity';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 export declare class ClienteService {
-    private readonly clienteService;
     private readonly clienteRepository;
-    constructor(clienteService: ClienteService, clienteRepository: Repository<Cliente>);
+    constructor(clienteRepository: Repository<Cliente>);
     create(createClienteDto: CreateClienteDto): Promise<Cliente>;
     findAll(): Promise<Cliente[]>;
     findOne(id: number): Promise<Cliente>;

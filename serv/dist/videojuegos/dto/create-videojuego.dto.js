@@ -16,6 +16,8 @@ class CreateVideojuegoDto {
     nombre;
     descripcion;
     precio;
+    descuento;
+    imagen;
 }
 exports.CreateVideojuegoDto = CreateVideojuegoDto;
 __decorate([
@@ -38,4 +40,12 @@ __decorate([
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], CreateVideojuegoDto.prototype, "precio", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], CreateVideojuegoDto.prototype, "descuento", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateVideojuegoDto.prototype, "imagen", void 0);
 //# sourceMappingURL=create-videojuego.dto.js.map

@@ -3,4 +3,6 @@ export declare class CreateVideojuegoDto {
     nombre: string;
     descripcion: string;
     precio: number;
+    descuento: number;
+    imagen: string;
 }

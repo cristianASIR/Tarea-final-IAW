@@ -4,5 +4,7 @@ export declare class Videojuego {
     nombre: string;
     precio: number;
     descripcion: string;
+    descuento: number;
+    imagen: string;
     cestaVideojuegos: Cestavideojuego[];
 }

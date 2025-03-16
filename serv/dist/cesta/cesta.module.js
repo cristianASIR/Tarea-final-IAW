@@ -12,7 +12,7 @@ const cesta_service_1 = require("./cesta.service");
 const cesta_controller_1 = require("./cesta.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const cesta_entity_1 = require("./entities/cesta.entity");
-const cliente_entity_1 = require("src/cliente/entities/cliente.entity");
+const cliente_entity_1 = require("../cliente/entities/cliente.entity");
 let CestaModule = class CestaModule {
 };
 exports.CestaModule = CestaModule;

@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cliente = void 0;
-const cesta_entity_1 = require("src/cesta/entities/cesta.entity");
+const cesta_entity_1 = require("../../cesta/entities/cesta.entity");
 const typeorm_1 = require("typeorm");
 let Cliente = class Cliente {
     idcliente;
@@ -52,8 +52,8 @@ __decorate([
     __metadata("design:type", String)
 ], Cliente.prototype, "password", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => cesta_entity_1.Cesta, (cesta) => cesta.cliente),
-    __metadata("design:type", Array)
+    (0, typeorm_1.OneToOne)(() => cesta_entity_1.Cesta, (cesta) => cesta.cliente, { cascade: true, eager: true }),
+    __metadata("design:type", cesta_entity_1.Cesta)
 ], Cliente.prototype, "cesta", void 0);
 exports.Cliente = Cliente = __decorate([
     (0, typeorm_1.Entity)()

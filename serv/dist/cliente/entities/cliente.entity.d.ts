@@ -7,5 +7,5 @@ export declare class Cliente {
     telefono: string;
     direccion: string;
     password: string;
-    cesta: Cesta[];
+    cesta: Cesta;
 }

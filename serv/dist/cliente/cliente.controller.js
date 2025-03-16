@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const cliente_service_1 = require("./cliente.service");
 const create_cliente_dto_1 = require("./dto/create-cliente.dto");
 const update_cliente_dto_1 = require("./dto/update-cliente.dto");
-const jwt_guard_1 = require("src/auth/jwt/jwt.guard");
+const jwt_guard_1 = require("../auth/jwt/jwt.guard");
 let ClienteController = class ClienteController {
     clienteService;
     constructor(clienteService) {

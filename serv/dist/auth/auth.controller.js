@@ -16,13 +16,18 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const passport_1 = require("@nestjs/passport");
-const create_cliente_dto_1 = require("src/cliente/dto/create-cliente.dto");
+const create_cliente_dto_1 = require("../cliente/dto/create-cliente.dto");
 let AuthController = class AuthController {
     authService;
     constructor(authService) {
         this.authService = authService;
     }
     async login(req) {
+        console.log("✅ Usuario autenticado recibido en el controlador:", req.user);
+        if (!req.user) {
+            console.error("❌ Error: req.user es undefined, la autenticación falló.");
+            throw new common_1.UnauthorizedException("Credenciales incorrectas.");
+        }
         return this.authService.login(req.user);
     }
     async register(body) {

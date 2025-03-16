@@ -17,17 +17,29 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const cestavideojuego_entity_1 = require("./entities/cestavideojuego.entity");
+const cesta_entity_1 = require("../cesta/entities/cesta.entity");
+const videojuego_entity_1 = require("../videojuegos/entities/videojuego.entity");
 let CestavideojuegoService = class CestavideojuegoService {
     cestavideojuegoRepository;
-    constructor(cestavideojuegoRepository) {
+    cestaRepository;
+    videojuegoRepository;
+    constructor(cestavideojuegoRepository, cestaRepository, videojuegoRepository) {
         this.cestavideojuegoRepository = cestavideojuegoRepository;
+        this.cestaRepository = cestaRepository;
+        this.videojuegoRepository = videojuegoRepository;
     }
     async create(createDto) {
-        const cestavideojuego = this.cestavideojuegoRepository.create(createDto);
-        return await this.cestavideojuegoRepository.save(cestavideojuego);
+        const { id_cesta, id_producto, cantidad, fecha_compra } = createDto;
+        const nuevoCestaVideojuego = this.cestavideojuegoRepository.create({
+            cantidad,
+            fecha_compra,
+            cesta: { idcesta: id_cesta },
+            videojuegos: { idproducto: id_producto },
+        });
+        return this.cestavideojuegoRepository.save(nuevoCestaVideojuego);
     }
     async findAll() {
-        return await this.cestavideojuegoRepository.find({
+        return this.cestavideojuegoRepository.find({
             relations: ['cesta', 'videojuegos'],
         });
     }
@@ -42,11 +54,14 @@ let CestavideojuegoService = class CestavideojuegoService {
         return cestavideojuego;
     }
     async update(id, updateDto) {
+        if (Object.keys(updateDto).length === 0) {
+            throw new common_1.BadRequestException('No se han enviado campos para actualizar');
+        }
         const result = await this.cestavideojuegoRepository.update(id, updateDto);
         if (result.affected === 0) {
             throw new common_1.NotFoundException(`Cestavideojuego con id ${id} no encontrado`);
         }
-        return await this.findOne(id);
+        return this.findOne(id);
     }
     async remove(id) {
         const result = await this.cestavideojuegoRepository.delete(id);
@@ -59,6 +74,10 @@ exports.CestavideojuegoService = CestavideojuegoService;
 exports.CestavideojuegoService = CestavideojuegoService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(cestavideojuego_entity_1.Cestavideojuego)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(cesta_entity_1.Cesta)),
+    __param(2, (0, typeorm_1.InjectRepository)(videojuego_entity_1.Videojuego)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
+        typeorm_2.Repository])
 ], CestavideojuegoService);
 //# sourceMappingURL=cestavideojuego.service.js.map

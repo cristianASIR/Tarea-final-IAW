@@ -12,6 +12,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const videojuego_entity_1 = require("./entities/videojuego.entity");
 const videojuegos_service_1 = require("./videojuegos.service");
 const videojuegos_controller_1 = require("./videojuegos.controller");
+const seed_service_1 = require("./seed.service");
 let VideojuegosModule = class VideojuegosModule {
 };
 exports.VideojuegosModule = VideojuegosModule;
@@ -19,7 +20,7 @@ exports.VideojuegosModule = VideojuegosModule = __decorate([
     (0, common_1.Module)({
         imports: [typeorm_1.TypeOrmModule.forFeature([videojuego_entity_1.Videojuego])],
         controllers: [videojuegos_controller_1.VideojuegosController],
-        providers: [videojuegos_service_1.VideojuegoService],
+        providers: [videojuegos_service_1.VideojuegoService, seed_service_1.SeedService],
     })
 ], VideojuegosModule);
 //# sourceMappingURL=videojuegos.module.js.map

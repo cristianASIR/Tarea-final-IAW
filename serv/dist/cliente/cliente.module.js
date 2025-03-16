@@ -12,6 +12,7 @@ const cliente_service_1 = require("./cliente.service");
 const cliente_controller_1 = require("./cliente.controller");
 const cliente_entity_1 = require("./entities/cliente.entity");
 const typeorm_1 = require("@nestjs/typeorm");
+const seed_cliente_service_1 = require("./seed-cliente.service");
 let ClienteModule = class ClienteModule {
 };
 exports.ClienteModule = ClienteModule;
@@ -19,7 +20,7 @@ exports.ClienteModule = ClienteModule = __decorate([
     (0, common_1.Module)({
         imports: [typeorm_1.TypeOrmModule.forFeature([cliente_entity_1.Cliente])],
         controllers: [cliente_controller_1.ClienteController],
-        providers: [cliente_service_1.ClienteService],
+        providers: [cliente_service_1.ClienteService, seed_cliente_service_1.SeedClienteService],
         exports: [cliente_service_1.ClienteService]
     })
 ], ClienteModule);

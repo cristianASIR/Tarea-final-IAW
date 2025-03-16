@@ -13,7 +13,6 @@ exports.CreateCestaDto = void 0;
 const class_validator_1 = require("class-validator");
 class CreateCestaDto {
     id_cliente;
-    id_producto;
     cantidad;
 }
 exports.CreateCestaDto = CreateCestaDto;
@@ -23,12 +22,7 @@ __decorate([
     __metadata("design:type", Number)
 ], CreateCestaDto.prototype, "id_cliente", void 0);
 __decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsNumber)(),
-    __metadata("design:type", Number)
-], CreateCestaDto.prototype, "id_producto", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], CreateCestaDto.prototype, "cantidad", void 0);

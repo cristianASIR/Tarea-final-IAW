@@ -13,7 +13,7 @@ exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcrypt");
-const cliente_service_1 = require("src/cliente/cliente.service");
+const cliente_service_1 = require("../cliente/cliente.service");
 let AuthService = class AuthService {
     clienteService;
     jwtService;
@@ -22,25 +22,44 @@ let AuthService = class AuthService {
         this.jwtService = jwtService;
     }
     async validateUser(loginDto) {
-        const user = await this.clienteService.findByEmail(loginDto.email);
+        console.log("📌 Buscando usuario con email:", loginDto.email.trim().toLowerCase());
+        const user = await this.clienteService.findByEmail(loginDto.email.trim().toLowerCase());
         if (!user) {
+            console.error("❌ Usuario no encontrado en la base de datos.");
             return null;
         }
-        if (user && await bcrypt.compare(loginDto.password, user.password)) {
-            const { password, ...result } = user;
-            return result;
+        console.log("✅ Usuario encontrado en BD:", user);
+        if (!loginDto.password || !user.password) {
+            console.error("❌ Error: La contraseña ingresada o almacenada en BD es inválida.");
+            return null;
         }
-        return null;
+        console.log("🔑 Comparando contraseña ingresada:", loginDto.password);
+        console.log("🔒 Hash en BD:", user.password);
+        const isMatch = await bcrypt.compare(loginDto.password, user.password);
+        console.log("🔍 ¿Contraseña coincide?:", isMatch);
+        if (!isMatch) {
+            console.error("❌ Contraseña incorrecta.");
+            return null;
+        }
+        console.log("✅ Contraseña correcta, autenticando usuario...");
+        const { password, ...result } = user;
+        return result;
     }
     async login(user) {
-        const payload = { email: user.email, sub: user.id };
+        const payload = { email: user.email, sub: user.idcliente };
         return {
             token: this.jwtService.sign(payload),
         };
     }
     async register(createClienteDto) {
         const { nombre, email, password, apellido, direccion, telefono } = createClienteDto;
+        console.log("🔑 Contraseña antes de hashear:", password);
+        if (!password || password.trim() === "") {
+            console.error("❌ Error: La contraseña no puede estar vacía.");
+            throw new Error("La contraseña es obligatoria.");
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
+        console.log("🔒 Hash generado correctamente:", hashedPassword);
         const user = await this.clienteService.create({
             nombre,
             email,

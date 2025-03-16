@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const cesta_service_1 = require("./cesta.service");
 const create_cesta_dto_1 = require("./dto/create-cesta.dto");
 const update_cesta_dto_1 = require("./dto/update-cesta.dto");
-const jwt_guard_1 = require("src/auth/jwt/jwt.guard");
+const jwt_guard_1 = require("../auth/jwt/jwt.guard");
 let CestaController = class CestaController {
     cestaService;
     constructor(cestaService) {

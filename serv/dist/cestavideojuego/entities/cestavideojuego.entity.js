@@ -10,12 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cestavideojuego = void 0;
-const cesta_entity_1 = require("src/cesta/entities/cesta.entity");
-const videojuego_entity_1 = require("src/videojuegos/entities/videojuego.entity");
+const cesta_entity_1 = require("../../cesta/entities/cesta.entity");
+const videojuego_entity_1 = require("../../videojuegos/entities/videojuego.entity");
 const typeorm_1 = require("typeorm");
 let Cestavideojuego = class Cestavideojuego {
     id;
     cantidad;
+    fecha_compra;
     cesta;
     videojuegos;
 };
@@ -28,6 +29,10 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
 ], Cestavideojuego.prototype, "cantidad", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Date)
+], Cestavideojuego.prototype, "fecha_compra", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => cesta_entity_1.Cesta, (cesta) => cesta.cestaVideojuego),
     __metadata("design:type", cesta_entity_1.Cesta)
