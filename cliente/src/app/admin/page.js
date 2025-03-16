@@ -2,7 +2,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import "bootstrap/dist/css/bootstrap.min.css";
-                                                    
+                                                    import Link from "next/link";
+
 export default function AdminVideojuegos() {
   const [videojuegos, setVideojuegos] = useState([]);
   const [nombre, setNombre] = useState("");
@@ -173,9 +174,18 @@ export default function AdminVideojuegos() {
                 <img src={juego.imagen} className="card-img-top img-fluid rounded" alt={juego.nombre} style={{ height: "200px", objectFit: "cover" }} />
                 <div className="card-body">
                   <h5 className="card-title text-center">{juego.nombre}</h5>
-                  <p className="text-center"><span role="img" aria-label="money">💰</span> Precio: ${juego.precio}</p>
+                  <p className="text-center"><span role="img" aria-label="money">💰</span> Precio: {juego.precio.toFixed(2)} €</p>
                   <p className="text-center">{juego.descripcion}</p>
-                  <button onClick={() => handleDelete(juego.idproducto)} className="btn btn-danger w-100">
+
+                  {/* Enlace para editar el videojuego */}
+                  <Link
+                    href={`/admin/videojuegos/editar/${juego.idproducto}`}
+                    className="btn btn-warning w-100 mt-2"
+                  >
+                    Editar
+                  </Link>
+
+                  <button onClick={() => handleDelete(juego.idproducto)} className="btn btn-danger w-100 mt-2">
                     Eliminar
                   </button>
                 </div>
@@ -189,5 +199,6 @@ export default function AdminVideojuegos() {
     </div>
   );
 }
+
 
 

@@ -1,13 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 
-
-const useCarrito = () => {
+const useCarrito = (idcliente) => {
   const [carrito, setCarrito] = useState([]);
 
   // 📌 Cargar el carrito desde `localStorage` al iniciar
   useEffect(() => {
-    const carritoGuardado = localStorage.getItem("carrito");
+    const carritoGuardado = localStorage.getItem(`carrito_cliente_${idcliente}`);
     if (carritoGuardado) {
       try {
         setCarrito(JSON.parse(carritoGuardado));
@@ -16,43 +15,44 @@ const useCarrito = () => {
         setCarrito([]);
       }
     }
-  }, []);
+  }, [idcliente]);
 
   // 📌 Guardar el carrito en `localStorage` cada vez que cambie
   useEffect(() => {
     if (carrito.length > 0) {
-      localStorage.setItem("carrito", JSON.stringify(carrito));
+      localStorage.setItem(`carrito_cliente_${idcliente}`, JSON.stringify(carrito));
     } else {
-      localStorage.removeItem("carrito");
+      localStorage.removeItem(`carrito_cliente_${idcliente}`);
     }
-  }, [carrito]);
+  }, [carrito, idcliente]);
 
-  // 📌 Agregar producto sin reemplazar los anteriores
+  // 📌 Agregar producto sin eliminar los anteriores
   const agregarProducto = (producto) => {
     setCarrito((prevCarrito) => {
-      const carritoActual = JSON.parse(localStorage.getItem("carrito")) || [];
-
-      const productoExistente = carritoActual.find((p) => p.id === producto.id);
+      // Busca si el producto ya existe en el carrito
+      const productoExistente = prevCarrito.find((p) => p.idproducto === producto.idproducto);
 
       let nuevoCarrito;
       if (productoExistente) {
-        nuevoCarrito = carritoActual.map((p) =>
-          p.id === producto.id ? { ...p, cantidad: p.cantidad + 1 } : p
+        // Si el producto ya existe, incrementa su cantidad
+        nuevoCarrito = prevCarrito.map((p) =>
+          p.idproducto === producto.idproducto ? { ...p, cantidad: p.cantidad + 1 } : p
         );
       } else {
-        nuevoCarrito = [...carritoActual, { ...producto, cantidad: 1 }];
+        // Si el producto no existe, agrégalo al carrito con cantidad 1
+        nuevoCarrito = [...prevCarrito, { ...producto, cantidad: 1 }];
       }
 
-      localStorage.setItem("carrito", JSON.stringify(nuevoCarrito)); // Guardar en `localStorage`
+      console.log("Nuevo carrito después de agregar producto:", nuevoCarrito); // Depuración
       return nuevoCarrito;
     });
   };
 
   // 📌 Eliminar un producto del carrito
-  const eliminarProducto = (id) => {
+  const eliminarProducto = (idproducto) => {
     setCarrito((prevCarrito) => {
-      const nuevoCarrito = prevCarrito.filter((producto) => producto.id !== id);
-      localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
+      const nuevoCarrito = prevCarrito.filter((producto) => producto.idproducto !== idproducto);
+      console.log("Nuevo carrito después de eliminar producto:", nuevoCarrito); // Depuración
       return nuevoCarrito;
     });
   };
@@ -60,14 +60,14 @@ const useCarrito = () => {
   // 📌 Vaciar el carrito completamente
   const vaciarCarrito = () => {
     setCarrito([]);
-    localStorage.removeItem("carrito");
+    console.log("Carrito vaciado"); // Depuración
   };
 
   // 📌 Actualizar la cantidad de un producto
-  const actualizarCantidad = (id, cantidad) => {
+  const actualizarCantidad = (idproducto, cantidad) => {
     setCarrito((prevCarrito) =>
       prevCarrito.map((producto) =>
-        producto.id === id ? { ...producto, cantidad: Math.max(1, cantidad) } : producto
+        producto.idproducto === idproducto ? { ...producto, cantidad: Math.max(1, cantidad) } : producto
       )
     );
   };
@@ -76,9 +76,3 @@ const useCarrito = () => {
 };
 
 export default useCarrito;
-
-
-
-
-
-
