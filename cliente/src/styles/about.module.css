@@ -1,0 +1,91 @@
+/* Estilos generales */
+.mainContent {
+    background-color: #121212; /* Fondo oscuro para un look moderno */
+    color: #ffffff; /* Texto blanco para contraste */
+    font-family: 'Arial', sans-serif;
+    padding-bottom: 50px;
+  }
+  
+  /* Estilos para el hero */
+  .hero {
+    background-image: linear-gradient(to right, #6a11cb, #2575fc); /* Degradado llamativo */
+    padding: 100px 20px;
+    text-align: center;
+    color: white;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    animation: fadeIn 2s ease-in-out;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    animation: fadeIn 3s ease-in-out;
+  }
+  
+  /* Animación de fadeIn */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Estilos para la sección del equipo */
+  .teamSection {
+    background-color: #1e1e1e; /* Fondo ligeramente más claro que el mainContent */
+    padding: 40px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .teamSection h2 {
+    font-size: 2rem;
+    color: #6a11cb; /* Color que combina con el degradado del hero */
+    margin-bottom: 30px;
+  }
+  
+  .teamSection h3 {
+    color: #2575fc; /* Color que combina con el degradado del hero */
+    margin-bottom: 15px;
+  }
+  
+  .teamSection p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #ccc; /* Color gris claro para el texto */
+  }
+  
+  /* Efecto hover para los nombres del equipo */
+  .teamSection p:hover {
+    color: #ffffff;
+    transform: scale(1.05);
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 2rem;
+    }
+  
+    .hero p {
+      font-size: 1rem;
+    }
+  
+    .teamSection h2 {
+      font-size: 1.5rem;
+    }
+  
+    .teamSection h3 {
+      font-size: 1.2rem;
+    }
+  
+    .teamSection p {
+      font-size: 0.9rem;
+    }
+  }
