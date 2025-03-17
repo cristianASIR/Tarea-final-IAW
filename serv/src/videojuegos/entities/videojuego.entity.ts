@@ -11,7 +11,7 @@ export class Videojuego {
  precio: number
  @Column()
  descripcion: string
- @Column()
+ @Column({ default: 5 })
  descuento: number
  @Column()
  imagen: string

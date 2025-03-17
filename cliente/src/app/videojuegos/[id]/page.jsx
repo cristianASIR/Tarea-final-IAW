@@ -64,9 +64,10 @@ export default function VideojuegoDetallePage() {
               style={{ height: "300px", objectFit: "cover" }}
             />
             <div className="card-body text-center">
-              <h5 className="card-title">{videojuego.nombre}</h5>
-              <p className="card-text">Precio: {videojuego.precio.toFixed(2)} €</p>
+              <h1 className="card-title">{videojuego.nombre}</h1><br />
+              <p className="card-text">Precio inicial: {videojuego.precio.toFixed(2)} €</p>
               <p className="card-text">Descuento: {videojuego.descuento}%</p>
+              <p className="card-text">Precio con descuento: {(videojuego.precio - (videojuego.precio * (videojuego.descuento / 100))).toFixed(2)} €</p>              
               <p className="card-text">Descripción: {videojuego.descripcion}</p>
 
 

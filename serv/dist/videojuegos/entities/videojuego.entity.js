@@ -39,7 +39,7 @@ __decorate([
     __metadata("design:type", String)
 ], Videojuego.prototype, "descripcion", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ default: 5 }),
     __metadata("design:type", Number)
 ], Videojuego.prototype, "descuento", void 0);
 __decorate([
