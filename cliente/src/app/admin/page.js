@@ -2,52 +2,52 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import "bootstrap/dist/css/bootstrap.min.css";
-                                                    import Link from "next/link";
+import Link from "next/link";
 
 export default function AdminVideojuegos() {
-  const [videojuegos, setVideojuegos] = useState([]);
-  const [nombre, setNombre] = useState("");
-  const [precio, setPrecio] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [imagen, setImagen] = useState("");
-  const [mensaje, setMensaje] = useState("");
+  const [videojuegos, setVideojuegos] = useState([]); 
+  const [nombre, setNombre] = useState(""); 
+  const [precio, setPrecio] = useState(""); 
+  const [descripcion, setDescripcion] = useState(""); 
+  const [imagen, setImagen] = useState(""); 
+  const [mensaje, setMensaje] = useState(""); 
   const router = useRouter();
 
   // ✅ Obtener videojuegos al cargar la página
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token"); // Verifica si el token está en el localStorage
 
     if (!token) {
-      alert("No tienes permisos para ver esta página. Inicia sesión.");
+      alert("No tienes permisos para ver esta página. Inicia sesión."); // Si no hay token, redirige al login
       router.push("/auth/login");
       return;
     }
 
-    fetchVideojuegos(token);
+    fetchVideojuegos(token); // Si hay token, carga los videojuegos
   }, [router]);
 
-  // 🔹 Función para obtener la lista de videojuegos desde la API
+  // Función para obtener la lista de videojuegos desde la API
   const fetchVideojuegos = async (token) => {
     try {
       const respuesta = await fetch("http://localhost:4000/videojuegos", {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` }, // Autorización con el token
       });
       if (!respuesta.ok) throw new Error("No se pudieron cargar los videojuegos");
 
-      const data = await respuesta.json();
-      setVideojuegos(data);
+      const data = await respuesta.json(); 
+      setVideojuegos(data); // Almacena la lista de videojuegos en el estado
     } catch (error) {
-      console.error("❌ Error cargando videojuegos:", error);
+      console.error("❌ Error cargando videojuegos:", error); 
     }
   };
 
-  // 🔹 Función para agregar un nuevo videojuego
+  // Función para agregar un nuevo videojuego
   const handleAdd = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("No tienes permisos para realizar esta acción.");
+      alert("No tienes permisos para realizar esta acción."); // Si no hay token, avisa al usuario
       return;
     }
 
@@ -55,26 +55,26 @@ export default function AdminVideojuegos() {
 
     try {
       const respuesta = await fetch("http://localhost:4000/videojuegos", {
-        method: "POST",
+        method: "POST", // Método POST para enviar un nuevo videojuego
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // Autorización con el token
         },
         body: JSON.stringify(nuevoVideojuego),
       });
 
       if (!respuesta.ok) throw new Error("Error al agregar el videojuego");
 
-      const data = await respuesta.json();
-      setVideojuegos([...videojuegos, data]); // 🔄 Actualizar lista de videojuegos
-      setMensaje("✅ Videojuego agregado correctamente");
-      setNombre("");
-      setPrecio("");
-      setDescripcion("");
-      setImagen("");
+      const data = await respuesta.json(); // Obtiene los datos del videojuego agregado
+      setVideojuegos([...videojuegos, data]); // Añade el nuevo videojuego a la lista de videojuegos
+      setMensaje("✅ Videojuego agregado correctamente"); // Mensaje de éxito
+      setNombre(""); 
+      setPrecio(""); 
+      setDescripcion(""); 
+      setImagen(""); 
     } catch (error) {
-      console.error("❌ Error al agregar videojuego:", error);
-      setMensaje("❌ No se pudo agregar el videojuego.");
+      console.error("❌ Error al agregar videojuego:", error); 
+      setMensaje("❌ No se pudo agregar el videojuego."); 
     }
   };
 
@@ -83,32 +83,32 @@ export default function AdminVideojuegos() {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("No tienes permisos para realizar esta acción.");
+      alert("No tienes permisos para realizar esta acción."); // Si no hay token, avisa al usuario
       return;
     }
 
-    const confirmDelete = window.confirm("¿Estás seguro de eliminar este videojuego?");
-    if (!confirmDelete) return;
+    const confirmDelete = window.confirm("¿Estás seguro de eliminar este videojuego?"); // Confirma si el usuario quiere eliminar el videojuego
+    if (!confirmDelete) return; // Si no confirma, no hace nada
 
     try {
       const respuesta = await fetch(`http://localhost:4000/videojuegos/${id}`, {
-        method: "DELETE",
+        method: "DELETE", // Método DELETE para eliminar un videojuego
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // Autorización con el token
         },
       });
 
       if (!respuesta.ok) throw new Error("No se pudo eliminar el videojuego");
 
-      alert("✅ Videojuego eliminado correctamente");
-      setVideojuegos(videojuegos.filter((juego) => juego.idproducto !== id)); // 🔄 Actualizar lista
+      alert("✅ Videojuego eliminado correctamente"); // Mensaje de éxito
+      setVideojuegos(videojuegos.filter((juego) => juego.idproducto !== id)); // Elimina el videojuego de la lista
     } catch (error) {
-      console.error("❌ Error al eliminar videojuego:", error);
-      alert("❌ Hubo un problema al eliminar el videojuego.");
+      console.error("❌ Error al eliminar videojuego:", error); 
+      alert("❌ Hubo un problema al eliminar el videojuego."); 
     }
   };
- 
+
   return (
     <div className="container mt-5">
       <h1 className="text-light mb-4">
@@ -164,7 +164,7 @@ export default function AdminVideojuegos() {
 
       {mensaje && <p className="text-success text-center mt-3">{mensaje}</p>}
 
-      {/* Listado de videojuegos con mejor diseño */}
+      {/* Listado de videojuegos */}
       <h2 className="mt-5 text-light">📜 Lista de Videojuegos</h2>
       <div className="row">
         {videojuegos.length > 0 ? (
@@ -174,7 +174,7 @@ export default function AdminVideojuegos() {
                 <img src={juego.imagen} className="card-img-top img-fluid rounded" alt={juego.nombre} style={{ height: "200px", objectFit: "cover" }} />
                 <div className="card-body">
                   <h5 className="card-title text-center">{juego.nombre}</h5>
-                  <p className="text-center"><span role="img" aria-label="money">💰</span> Precio: {juego.precio.toFixed(2)} €</p>
+                  <p className="text-center"><span role="img" aria-label="money">💰</span> Precio: {isNaN(juego.precio) ? "Precio no disponible" : Number(juego.precio).toFixed(2)} €</p>
                   <p className="text-center">{juego.descripcion}</p>
 
                   {/* Enlace para editar el videojuego */}
@@ -199,6 +199,9 @@ export default function AdminVideojuegos() {
     </div>
   );
 }
+
+
+
 
 
 

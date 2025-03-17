@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 const useCarrito = (idcliente) => {
   const [carrito, setCarrito] = useState([]);
 
-  // 📌 Cargar el carrito desde `localStorage` al iniciar
+  // 📌 Cargar el carrito desde localStorage al iniciar
   useEffect(() => {
     const carritoGuardado = localStorage.getItem(`carrito_cliente_${idcliente}`);
     if (carritoGuardado) {

@@ -5,24 +5,24 @@ import { useState, useEffect } from "react";
 export default function Carrito() {
   const [carrito, setCarrito] = useState([]);
 
-  // 📌 Cargar el carrito desde localStorage al iniciar
+  // Cargar el carrito desde localStorage al iniciar
   useEffect(() => {
     const carritoGuardado = JSON.parse(localStorage.getItem("carrito")) || [];
     setCarrito(carritoGuardado);
   }, []);
 
-  // 📌 Guardar el carrito en localStorage cada vez que cambia
+  // Guardar el carrito en localStorage cada vez que cambia
   useEffect(() => {
     localStorage.setItem("carrito", JSON.stringify(carrito));
   }, [carrito]);
 
-  // 📌 Función para eliminar un producto del carrito
+  // Función para eliminar un producto del carrito
   const eliminarProducto = (id) => {
     const nuevoCarrito = carrito.filter((producto) => producto.id !== id);
     setCarrito(nuevoCarrito);
   };
 
-  // 📌 Función para actualizar la cantidad de un producto
+  // Función para actualizar la cantidad de un producto
   const actualizarCantidad = (id, cantidad) => {
     const nuevoCarrito = carrito.map((producto) =>
       producto.id === id ? { ...producto, cantidad: Math.max(1, cantidad) } : producto
@@ -30,7 +30,7 @@ export default function Carrito() {
     setCarrito(nuevoCarrito);
   };
 
-  // 📌 Calcular el total del carrito
+  // Calcular el total del carrito sumando el precio de cada producto por su cantidad
   const precioTotal = carrito.reduce(
     (total, producto) => total + producto.precio * producto.cantidad,
     0
@@ -41,6 +41,7 @@ export default function Carrito() {
       <h1 className="text-center text-primary mb-4">🛒 Tu Carrito</h1>
 
       {carrito.length === 0 ? (
+        // Mensaje si el carrito está vacío
         <div className="alert alert-warning text-center">El carrito está vacío</div>
       ) : (
         <div className="row justify-content-center">
@@ -49,7 +50,7 @@ export default function Carrito() {
               <div className="card bg-dark text-white shadow-lg">
                 <div className="row g-0 align-items-center">
                   
-                  {/* 📌 Imagen del producto */}
+                  {/* Imagen del producto */}
                   <div className="col-4">
                     <img
                       src={producto.imagen}
@@ -59,7 +60,7 @@ export default function Carrito() {
                     />
                   </div>
 
-                  {/* 📌 Info del Producto */}
+                  {/* Información del Producto */}
                   <div className="col-8">
                     <div className="card-body">
                       <h5 className="card-title">{producto.nombre}</h5>
@@ -67,7 +68,7 @@ export default function Carrito() {
                         {producto.precio} €
                       </p>
 
-                      {/* 📌 Controles de Cantidad */}
+                      {/* Controles para actualizar la cantidad del producto */}
                       <div className="d-flex align-items-center gap-2">
                         <button
                           className="btn btn-sm btn-outline-light"
@@ -92,7 +93,7 @@ export default function Carrito() {
                         </button>
                       </div>
 
-                      {/* 📌 Botón de eliminar */}
+                      {/* Botón de eliminar el producto */}
                       <button
                         onClick={() => eliminarProducto(producto.id)}
                         className="btn btn-danger btn-sm mt-2 w-100"
@@ -106,7 +107,7 @@ export default function Carrito() {
             </div>
           ))}
 
-          {/* 📌 Sección del Total */}
+          {/* Sección para mostrar el total del carrito */}
           <div className="col-md-6 mt-4">
             <div className="alert alert-info text-center fs-4 fw-bold">
               💰 Total: {precioTotal.toFixed(2)} €
@@ -117,3 +118,4 @@ export default function Carrito() {
     </div>
   );
 }
+

@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 export default function Register() {
+  // Estados para capturar los datos del usuario
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [email, setEmail] = useState("");
@@ -11,14 +12,17 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // Función para el registro del usuario
   const handleRegister = async (e) => {
     e.preventDefault();
 
+    // Verifica si las contraseñas coinciden antes de enviar la solicitud, si no, sale un error
     if (password !== confirmPassword) {
-      alert("Las contraseñas no coinciden");
+      alert("❌ Las contraseñas no coinciden");
       return;
     }
 
+    // Datos del usuario que enviaremos a la API
     const usuario = {
       nombre,
       apellido,
@@ -28,19 +32,24 @@ export default function Register() {
       password,
     };
 
-    // Hace la solicitud al backend
-    const response = await fetch("http://localhost:4000/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(usuario),
-    });
+    try {
+      // Enviamos una solicitud a la API para registrar al usuario
+      const response = await fetch("http://localhost:4000/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(usuario),
+      });
 
-    if (response.ok) {
-      alert("Registro exitoso");
-    } else {
-      alert("Error en el registro");
+      if (response.ok) {
+        alert("✅ Registro exitoso. Ahora puedes iniciar sesión.");
+      } else {
+        alert("❌ Error en el registro. Inténtalo de nuevo.");
+      }
+    } catch (error) {
+      console.error("❌ Error al conectar con el servidor:", error);
+      alert("❌ Hubo un problema en la conexión con el servidor.");
     }
   };
 
@@ -49,6 +58,7 @@ export default function Register() {
       <div className="card p-4 bg-dark text-white shadow-lg" style={{ width: "25rem" }}>
         <h2 className="text-center">📝 Registro</h2>
 
+        {/* Formulario de registro */}
         <form onSubmit={handleRegister} className="mt-3">
           <div className="mb-3">
             <label className="form-label">Nombre</label>
@@ -142,6 +152,7 @@ export default function Register() {
     </div>
   );
 }
+
 
 
 

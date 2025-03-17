@@ -67,7 +67,7 @@ export default function Navbar() {
         <div className="d-flex gap-2">
           {isLoggedIn ? (
             <>
-              {/* ✅ Botón de Panel de Administración (Ruta corregida) */}
+              {/* ✅ Botón de Panel de Administración) */}
               <Link href="/admin" className="btn btn-light d-flex align-items-center">
                 <FaGamepad className="me-2" />
                 Panel Admin
